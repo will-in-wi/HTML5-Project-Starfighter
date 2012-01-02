@@ -1,0 +1,50 @@
+body {
+  font-family: "Bitstream Vera Sans Mono";
+}
+
+#main-menu {
+  margin-top: 200px;
+  text-align: center;
+  width: 800px;
+  
+  background-image: url("data/gfx/sflogo.png");
+  background-repeat: no-repeat;
+  background-position: center top;
+  padding-top: 80px;
+}
+
+#main-menu ul {
+  padding-left: 0;
+  width: 215px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#main-menu li {
+  list-style-type: none;
+}
+
+#main-menu a {
+  display: block;
+  text-decoration: none;
+  color: white;
+  font-weight: 600;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  font-size: 15px;
+  text-shadow: 1px 1px 0 black;
+}
+
+#main-menu a:hover {
+  background-color: red;
+  border: 1px white solid;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+canvas {
+  top: 0;
+  left: 0;
+  position: fixed;
+  z-index: -1;
+}
