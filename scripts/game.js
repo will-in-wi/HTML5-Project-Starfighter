@@ -1,4 +1,4 @@
-'strict mode';
+'use strict';
 
 function start_mission(element) {
     /*
