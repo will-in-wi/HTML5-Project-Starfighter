@@ -33,7 +33,7 @@ function cutScene(element) {
         state.drawObjects.push(ship);
     };
 
-    var sceneSpeed = Number(element.scene.speed);
+    var sceneSpeed = element.scene.speed;
 
     // main loop
     var mainLoop = setInterval(function() {
