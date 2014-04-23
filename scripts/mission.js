@@ -23,10 +23,7 @@ function Mission(element) {
         // Add baddies.
         // TODO: Add based on time.
         for (var i = 0; i < element.badGuys.length; i++) {
-            var ai = new AI(100, new Point(Math.random()*800, Math.random()*600));
-            var weapon = new NormalBadShot();
-            var badguy = new EnemyShip(ai, element.badGuys[i].ship, 50, weapon);
-            state.drawObjects.push(badguy);
+            state.drawObjects.push(Ships[element.badGuys[i].ship]());
         };
 
         var game = new Game();
