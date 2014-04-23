@@ -13,6 +13,11 @@ function Briefing(element) {
 
     this.completion_promise = new jQuery.Deferred();
 
+    this.end_briefing = function() {
+        clearInterval(me.main_loop_interval);
+        this.completion_promise.resolve();
+    }
+
     this.draw = function () {
 
         var loc = new Point(150 + state.cameraX, 70);
@@ -46,11 +51,9 @@ function Briefing(element) {
 
         Widgets.text(loc.move(120, 490), 'Press [F] or Fire to continue…');
 
-        if (kbd.ctrl == true) { // Skip scene
+        if (kbd.ctrl == true) { // End briefing.
             kbd.ctrl = false; // Force the user to press the key again.
-            clearInterval(me.main_loop_interval);
-            this.completion_promise.resolve();
-            // endBriefing();
+            this.end_briefing();
         }
     }
 
