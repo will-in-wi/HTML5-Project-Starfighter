@@ -200,9 +200,8 @@ $(document).ready(function() {
             img.src = '';
             img.src = 'data/gfx/' + imgName;
         } else {
-            //start_game();
-            // main_menu();
-            load_xml();
+            // game();
+            main_menu();
         }
     }
 });

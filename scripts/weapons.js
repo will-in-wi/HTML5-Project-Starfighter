@@ -40,6 +40,8 @@ function Shot(startPoint, gfx, side, direction, damage) {
 // Normal shot for good guys.
 function NormalGoodShot() {
 
+    var state = window.game_state;
+
     // Number of shots in blast
     this.numShots = 1;
 
