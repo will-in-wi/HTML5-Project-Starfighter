@@ -27,7 +27,12 @@ var Widgets = {
         state.ctx.stroke();
 
         // Title Text
-        Widgets.text(loc, headerText);
+        Widgets.text(loc.move(5, 15), headerText);
+
+        // Body text
+        for (var i = 0; i < bodyText.length; i++) {
+            Widgets.text(loc.move(15, 45 + (20 * i)), bodyText[i]);
+        };
     },
 
     text : function (loc, text) {
@@ -37,9 +42,9 @@ var Widgets = {
 
         // Draw shadow
         state.ctx.fillStyle = 'black';
-        state.ctx.fillText(text, loc.X + 5, loc.Y + 16);
+        state.ctx.fillText(text, loc.X, loc.Y + 1);
         // Draw text
         state.ctx.fillStyle = 'white';
-        state.ctx.fillText(text, loc.X + 5, loc.Y + 15);
+        state.ctx.fillText(text, loc.X, loc.Y);
     }
 };
