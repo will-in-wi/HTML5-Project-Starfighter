@@ -176,11 +176,7 @@ function Firefly(startPoint) {
         }
 
         // Draw firefly
-        if (this.direction == 'right') {
-            state.ctx.drawImage(gameImages["firefly1"], this.currPoint.X, this.currPoint.Y);
-        } else if (this.direction == 'left') {
-            state.ctx.drawImage(gameImages["firefly2"], this.currPoint.X, this.currPoint.Y);
-        }
+        Widgets.ship('firefly', this.direction, this.currPoint);
 
         // Fire shots
         if (kbd.ctrl == true) {

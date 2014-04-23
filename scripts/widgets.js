@@ -69,6 +69,16 @@ var Widgets = {
         }
     },
 
+    ship : function(name, direction, loc) {
+        var state = window.game_state;
+
+        if (direction == 'right') {
+            state.ctx.drawImage(gameImages[name + '1'], loc.X, loc.Y);
+        } else if (direction == 'left') {
+            state.ctx.drawImage(gameImages[name + '2'], loc.X, loc.Y);
+        }
+    },
+
     backgrounds : {
         green_gradient : function() {
             var state = window.game_state;
