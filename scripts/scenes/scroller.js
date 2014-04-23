@@ -14,6 +14,8 @@ function Scroller(element) {
 
     this.main_loop_interval = null;
 
+    this.completion_promise = new jQuery.Deferred();
+
     this.draw = function () {
         // clear canvas
         state.ctx.clearRect(state.cameraX, state.cameraY, $('#game').width(), $('#game').height());
@@ -57,12 +59,14 @@ function Scroller(element) {
         function exit_scroller() {
             clearInterval(me.main_loop_interval);
 
+            me.completion_promise.resolve();
+
             // Decide what function gets execution.
-            if (inSystem == false) {
-                handle_next();
-            } else {
-                // TODO: go to next scene in system
-            }
+            // if (inSystem == false) {
+            //     handle_next();
+            // } else {
+            //     // TODO: go to next scene in system
+            // }
         }
     }
 
@@ -71,5 +75,7 @@ function Scroller(element) {
         me.main_loop_interval = setInterval(function() {
             me.draw();
         }, 40);
+
+        return this.completion_promise;
     }
 }

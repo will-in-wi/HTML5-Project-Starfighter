@@ -10,6 +10,8 @@ function CutScene(element) {
 
     var currTime = 0;
 
+    this.completion_promise = new jQuery.Deferred();
+
     // draw starfield
     var starfield = [];
     for (var i=0;i<=70;i=i+1) {
@@ -99,12 +101,7 @@ function CutScene(element) {
         function endCutScene() {
             clearInterval(me.main_loop_interval);
 
-            // Decide what function gets execution.
-            if (inSystem == false) {
-                handle_next();
-            } else {
-                // TODO: go to next scene in system
-            }
+            me.completion_promise.resolve();
         }
 
         if (kbd.ctrl == true) { // Skip scene
@@ -132,5 +129,7 @@ function CutScene(element) {
         me.main_loop_interval = setInterval(function() {
             me.draw();
         }, 40);
+
+        return this.completion_promise;
     }
 }

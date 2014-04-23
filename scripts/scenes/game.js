@@ -103,20 +103,3 @@ function Game() {
         }, 40);
     }
 }
-
-// Handle JSON mission file.
-function loadStory(storyName) {
-    Debug.log('Downloading story json: ' + storyName + '.json');
-    // TODO: Get rid of jQuery. We can assume a sane environment.
-    $.getJSON(storyName + '.json', function(data) {
-
-        Debug.log('Story JSON returned, setting up game.');
-
-        window.game_play = data;
-
-        // Used to determine whether the game is currently in a system.
-        window.inSystem = false;
-
-        handle_next();
-    });
-}

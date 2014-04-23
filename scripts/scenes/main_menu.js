@@ -65,8 +65,11 @@ function MainMenu() {
             Debug.log('Game start event.');
             clearInterval(me.main_loop_interval);
             $("#main-menu").remove();
-            //start_game();
-            loadStory('story');
+
+            var t = new Tracker();
+            t.loadStory('story').done(function(){
+                t.next_scene();
+            });
         });
 
         $("#options").click(function() {
