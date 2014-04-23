@@ -108,17 +108,17 @@ function EnemyShip(ai, ship, shield, primaryWeapon) {
             }
 
             // Fire if Firefly is in front.
-            if (window.firefly) { // Firefly does not exist in menu
-                if (this.currPoint.Y + 10 > firefly.currPoint.Y && this.currPoint.Y - 10 < firefly.currPoint.Y) { // Firefly is in line of fire.
+            if (state.firefly) { // Firefly does not exist in menu
+                if (this.currPoint.Y + 10 > state.firefly.currPoint.Y && this.currPoint.Y - 10 < state.firefly.currPoint.Y) { // Firefly is in line of fire.
                     // Shoot
                     if (this.direction == 'right') { // Shoot right
-                        if (this.currPoint.X < firefly.currPoint.X) {
+                        if (this.currPoint.X < state.firefly.currPoint.X) {
                             this.primaryWeapon.fire(this.direction, this.currPoint);
                         } else {
                             this.primaryWeapon.nofire();
                         }
                     } else { // Shoot left
-                        if (this.currPoint.X > firefly.currPoint.X) {
+                        if (this.currPoint.X > state.firefly.currPoint.X) {
                             this.primaryWeapon.fire(this.direction, this.currPoint);
                         } else {
                             this.primaryWeapon.nofire();
