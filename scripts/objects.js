@@ -26,9 +26,3 @@ function Mission(objectives, title, description) {
         }
     }
 }
-
-// Point object
-function Point(x, y) {
-    this.X = x;
-    this.Y = y;
-}
