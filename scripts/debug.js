@@ -12,7 +12,7 @@ var Debug = {
      * @default false
      * @fieldOf Debug
      */
-    enabled : util.getParameterByName('debug'),
+    enabled : (util.getParameterByName('debug')) ? true : false,
     /**
      * @name consoleOnly
      * @description used to mark if debugging logs should output to console only; true by default.  use debug=all to log to both the console AND a helper div on screen.
