@@ -187,6 +187,7 @@ $(document).ready(function() {
         "wingmate2.png"
     ];
 
+    Debug.log('Beginning image preload.');
     load_object();
 
     window.game_state = new StarfighterState();
@@ -202,6 +203,7 @@ $(document).ready(function() {
             img.src = '';
             img.src = 'data/gfx/' + imgName;
         } else {
+            Debug.log('Image preload finished, starting menu.');
             var currScene = new MainMenu();
             currScene.main_loop();
             // game();

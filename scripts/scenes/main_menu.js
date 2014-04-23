@@ -2,6 +2,8 @@
 
 function MainMenu() {
 
+    Debug.log('Initializing Main Menu.');
+
     var me = this;
 
     var state = window.game_state;
@@ -54,10 +56,13 @@ function MainMenu() {
     }
 
     function main_menu_menu() {
+        Debug.log('Drawing main menu click menu.');
+
         // Draw Menu
         $('#main-menu').html('<ul><li><a href="#" id="start-game">START NEW GAME</a></li><li><a href="#" id="load-game">LOAD GAME</a></li><li><a href="#" id="continue-game">CONTINUE CURRENT GAME</a></li><li><a href="#" id="options">OPTIONS</a></li></ul><audio autoplay loop><source src="data/music/Platinum.ogg" type="audio/ogg" /><source src="data/music/Platinum.mp3" type="audio/mpeg" /></audio>');
 
         $("#start-game").click(function() {
+            Debug.log('Game start event.');
             clearInterval(me.main_loop_interval);
             $("#main-menu").remove();
             //start_game();
@@ -101,6 +106,7 @@ function MainMenu() {
     }
 
     this.main_loop = function() {
+        Debug.log('Starting main menu render loop.');
         me.main_loop_interval = setInterval(function() {
             me.draw();
         }, 40);

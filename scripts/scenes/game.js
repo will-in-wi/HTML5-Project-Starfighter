@@ -106,8 +106,12 @@ function Game() {
 
 // Handle JSON mission file.
 function loadStory(storyName) {
+    Debug.log('Downloading story json: ' + storyName + '.json');
     // TODO: Get rid of jQuery. We can assume a sane environment.
     $.getJSON(storyName + '.json', function(data) {
+
+        Debug.log('Story JSON returned, setting up game.');
+
         window.game_play = data;
 
         // Used to determine whether the game is currently in a system.
@@ -115,27 +119,4 @@ function loadStory(storyName) {
 
         handle_next();
     });
-}
-
-// Advance to next top-level part of the game.
-function handle_next() {
-    var next = game_play.shift();
-    var scene = null;
-    switch (next.type) {
-        case 'scroller':
-            scene = new Scroller(next);
-            scene.main_loop();
-            break;
-        case 'cutscene':
-            scene = new CutScene(next);
-            scene.main_loop();
-            break;
-        case 'mission':
-            var mission = new Mission(next);
-            mission.start();
-            break;
-        default:
-            console.log('Invalid story element: ' + next.type);
-            return;
-    }
 }
