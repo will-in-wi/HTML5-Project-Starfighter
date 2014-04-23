@@ -12,28 +12,6 @@ function playSound(res) {
     sfx.play();
 }
 
-// This is to draw the indicators
-function draw_indicator(title, startPoint, potentialColor, realColor, possibleValue, realValue) {
-    var state = window.game_state;
-
-    // Draw text
-    state.ctx.fillStyle = 'white';
-    state.ctx.fillText(title, startPoint.X, startPoint.Y + 10);
-
-    // Draw indicator boxes
-    for (var i = 1; i <= possibleValue; i = i + 1) {
-        // Determine color whether damage is potential or real.
-        if (i <= realValue) {
-            state.ctx.fillStyle = potentialColor; // Real damage
-        } else {
-            state.ctx.fillStyle = realColor; // Potential damage
-        }
-
-        // Draw boxes
-        state.ctx.fillRect(startPoint.X + 60 + ((i-1)*35), startPoint.Y, 30, 12);
-    }
-}
-
 // Shows the infobox with a face
 function talkBox(person, text, loc) {
 

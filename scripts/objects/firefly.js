@@ -208,13 +208,13 @@ function Firefly(startPoint) {
         // Draw weapon state.
 
         // Draw plasma damage indicator boxes
-        draw_indicator('Power', new Point(state.cameraX + 10, state.cameraY + 574), '#00FF00', '#008000', this.primaryWeapon.possibleDamage, this.primaryWeapon.damage);
+        Widgets.indicator('Power', new Point(state.cameraX + 10, state.cameraY + 574), new Color(0, 255, 0), this.primaryWeapon.possibleDamage, this.primaryWeapon.damage);
 
         // Draw plasma output indicator boxes
-        draw_indicator('Output', new Point(state.cameraX + 270, state.cameraY + 574), '#FFFF00', '#808000', this.primaryWeapon.possibleShots, this.primaryWeapon.shots);
+        Widgets.indicator('Output', new Point(state.cameraX + 270, state.cameraY + 574), new Color(255, 255, 0), this.primaryWeapon.possibleShots, this.primaryWeapon.shots);
 
         // Draw plasma cooler indicator boxes
-        draw_indicator('Cooler', new Point(state.cameraX + 540, state.cameraY + 574), '#4040FF', '#202080', this.primaryWeapon.possibleSpeed, this.primaryWeapon.speed);
+        Widgets.indicator('Cooler', new Point(state.cameraX + 540, state.cameraY + 574), new Color(64, 64, 255), this.primaryWeapon.possibleSpeed, this.primaryWeapon.speed);
 
         // Draw number of plasma shots
         state.ctx.fillStyle = 'white';

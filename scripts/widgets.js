@@ -48,6 +48,27 @@ var Widgets = {
         state.ctx.fillText(text, loc.X, loc.Y);
     },
 
+    indicator : function(title, startPoint, color, possibleValue, realValue) {
+        var state = window.game_state;
+
+        // Draw text
+        state.ctx.fillStyle = 'white';
+        state.ctx.fillText(title, startPoint.X, startPoint.Y + 10);
+
+        // Draw indicator boxes
+        for (var i = 1; i <= possibleValue; i = i + 1) {
+            // Determine color whether damage is potential or real.
+            if (i <= realValue) {
+                state.ctx.fillStyle = color.hex(); // Real damage
+            } else {
+                state.ctx.fillStyle = color.transform(0.5).hex(); // Potential damage
+            }
+
+            // Draw boxes
+            state.ctx.fillRect(startPoint.X + 60 + ((i-1)*35), startPoint.Y, 30, 12);
+        }
+    },
+
     backgrounds : {
         green_gradient : function() {
             var state = window.game_state;
