@@ -1,11 +1,9 @@
-function main_menu() {
-    var canvas = document.getElementById('game');
-    var ctx = canvas.getContext('2d');
+'use strict';
 
-    // Initialize variables
-    window.drawObjects = [];
-    window.cameraX = 0;
-    window.cameraY = 0;
+function main_menu() {
+
+    var state = window.game_state;
+    state.reset();
 
     // Insert 16 bad guys
     for (var i=0;i<=5;i=i+1) {
@@ -14,7 +12,7 @@ function main_menu() {
         var badguy = new EnemyShip(ai, "eliteFighter", 1);
         badguy.noShield = true;
         badguy.speed = Math.random()*6;
-        drawObjects.push(badguy);
+        state.drawObjects.push(badguy);
     }
     for (var i=0;i<=5;i=i+1) {
         var loc = new Point(Math.random()*800, Math.random()*600);
@@ -22,7 +20,7 @@ function main_menu() {
         var badguy = new EnemyShip(ai, "dualFighter", 1);
         badguy.speed = Math.random()*6;
         badguy.noShield = true;
-        drawObjects.push(badguy);
+        state.drawObjects.push(badguy);
     }
     for (var i=0;i<=5;i=i+1) {
         var loc = new Point(Math.random()*800, Math.random()*600);
@@ -30,7 +28,7 @@ function main_menu() {
         var badguy = new EnemyShip(ai, "missileBoat", 1);
         badguy.speed = Math.random()*6;
         badguy.noShield = true;
-        drawObjects.push(badguy);
+        state.drawObjects.push(badguy);
     }
     for (var i=0;i<=5;i=i+1) {
         var loc = new Point(Math.random()*800, Math.random()*600);
@@ -38,7 +36,7 @@ function main_menu() {
         var badguy = new EnemyShip(ai, "miner", 1);
         badguy.speed = Math.random()*6;
         badguy.noShield = true;
-        drawObjects.push(badguy);
+        state.drawObjects.push(badguy);
     }
 
     // Draw Menu
@@ -58,28 +56,28 @@ function main_menu() {
 
     function draw() {
         // clear canvas
-        ctx.clearRect(0,0,$('#game').width(),$('#game').height());
+        state.ctx.clearRect(0,0,$('#game').width(),$('#game').height());
 
         // create background
-        ctx.drawImage(gameImages["spirit"], 0, 0);
+        state.ctx.drawImage(gameImages["spirit"], 0, 0);
 
         // draw starfield
-        ctx.fillStyle = "gray";
+        state.ctx.fillStyle = "gray";
         for (var i=starfield.length-1; i>=0; --i) {
             var star = starfield[i];
-            ctx.fillRect(star[0], star[1], 1, 1);
+            state.ctx.fillRect(star[0], star[1], 1, 1);
         }
 
         // Reap objects
-        drawObjects.forEach(function(obj, i, arr) {
+        state.drawObjects.forEach(function(obj, i, arr) {
             if (obj.reapMe == true) {
                 arr.splice(i, 1);
             }
         });
 
         // Draw all other objects
-        drawObjects.forEach(function(obj) {
-            obj.draw(ctx);
+        state.drawObjects.forEach(function(obj) {
+            obj.draw(state.ctx);
         });
     }
 

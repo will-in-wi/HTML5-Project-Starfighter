@@ -187,6 +187,8 @@ $(document).ready(function() {
 
     load_object();
 
+    window.game_state = new StarfighterState();
+
     function load_object() {
         if (objects.length != 0) {
             var imgName = objects.shift();

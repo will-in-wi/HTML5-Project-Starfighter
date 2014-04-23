@@ -3,6 +3,9 @@
 
 // Enemy Ship
 function EnemyShip(ai, ship, shield, primaryWeapon) {
+
+    var state = window.game_state;
+
     var loc = ai.whereTo(new Point(ai.X, ai.Y));
     this.AI = ai
     this.currPoint = loc;
@@ -29,98 +32,98 @@ function EnemyShip(ai, ship, shield, primaryWeapon) {
 
     this.reapMe = false;
     this.type = "bad_ship";
-}
 
-EnemyShip.prototype.draw = function (ctx) {
-    if (this.shield <= 0) {
-        this.reapMe = true;
-        var explode = new Explosion(this.currPoint);
-        drawObjects.push(explode);
-    } else {
-        // Get new location from AI.
-        var newPoint = this.AI.whereTo();
-
-        // determine left vs. right from change in X.
-        if (newPoint.X > this.currPoint.X) {
-            this.direction = 'right';
-        } else if (newPoint.X < this.currPoint.X) {
-            this.direction = 'left';
-        }
-
-        this.currPoint = newPoint;
-
-        // Add arrow if object is off screen.
-        if (this.currPoint.X < cameraX || this.currPoint.X > cameraX + 800 || this.currPoint.Y < cameraY || this.currPoint.Y > cameraY + 600) {
-            // Show arrow on edge of screen
-            if (this.currPoint.X < cameraX && this.currPoint.Y < cameraY) { // upper left corner
-                ctx.drawImage(gameImages["arrowNorthWest"], cameraX + 2, cameraY + 2);
-            } else if (this.currPoint.X < cameraX && this.currPoint.Y > cameraY + 600) { // lower left corner
-                ctx.drawImage(gameImages["arrowSouthWest"], cameraX + 2, cameraY + 585);
-            } else if (this.currPoint.X > cameraX + 800 && this.currPoint.Y < cameraY) { // upper right corner
-                ctx.drawImage(gameImages["arrowNorthEast"], cameraX + 785, cameraY + 2);
-            } else if (this.currPoint.X > cameraX + 800 && this.currPoint.Y > cameraY + 600) { // lower right corner
-                ctx.drawImage(gameImages["arrowSouthEast"], cameraX + 785, cameraY + 585);
-            } else if (this.currPoint.X < cameraX) { // Left side
-                ctx.drawImage(gameImages["arrowWest"], cameraX + 2, this.currPoint.Y);
-            } else if (this.currPoint.X > cameraX + 800) { // Right Side
-                ctx.drawImage(gameImages["arrowEast"], cameraX + 785, this.currPoint.Y);
-            } else if (this.currPoint.Y < cameraY) { // Top side
-                ctx.drawImage(gameImages["arrowNorth"], this.currPoint.X, cameraY + 2);
-            } else if (this.currPoint.Y > cameraY + 600) { // Bottom side
-                ctx.drawImage(gameImages["arrowSouth"], this.currPoint.X, cameraY + 585);
-            }
+    this.draw = function (ctx) {
+        if (this.shield <= 0) {
+            this.reapMe = true;
+            var explode = new Explosion(this.currPoint);
+            state.drawObjects.push(explode);
         } else {
-            // Draw ship
-            if (this.direction == 'right') {
-                ctx.drawImage(gameImages[this.ship + "1"], this.currPoint.X, this.currPoint.Y);
-            } else if (this.direction == 'left')  {
-                ctx.drawImage(gameImages[this.ship + "2"], this.currPoint.X, this.currPoint.Y);
+            // Get new location from AI.
+            var newPoint = this.AI.whereTo();
+
+            // determine left vs. right from change in X.
+            if (newPoint.X > this.currPoint.X) {
+                this.direction = 'right';
+            } else if (newPoint.X < this.currPoint.X) {
+                this.direction = 'left';
             }
 
-            // Draw shield above ship
-            if (!this.noShield) {
-                var percentageShield = this.shield / this.maxShield * 100;
-                if (percentageShield > 66) {
-                    ctx.fillStyle = 'green';
-                } else if (percentageShield > 33) {
-                    ctx.fillStyle = 'orange';
-                } else {
-                    ctx.fillStyle = 'red';
-                }
-                var fillWidth = (gameImages[this.ship + "1"].width) * (percentageShield / 100);
-                ctx.fillRect(this.currPoint.X + 1, this.currPoint.Y - 10, fillWidth, 5);
-            }
+            this.currPoint = newPoint;
 
-            // draw smoke
-            var smokePoint = new Point(0, Math.random()*gameImages[this.ship + "1"].height + this.currPoint.Y);
-            if (this.direction == 'right') {
-                smokePoint.X = this.currPoint.X - 2;
-            } else if (this.direction == 'left') {
-                smokePoint.X = this.currPoint.X + 25;
-            }
-            var smoke = new Smoke(smokePoint);
-            drawObjects.push(smoke);
-        }
-
-        // Fire if Firefly is in front.
-        if (window.firefly) { // Firefly does not exist in menu
-            if (this.currPoint.Y + 10 > firefly.currPoint.Y && this.currPoint.Y - 10 < firefly.currPoint.Y) { // Firefly is in line of fire.
-                // Shoot
-                if (this.direction == 'right') { // Shoot right
-                    if (this.currPoint.X < firefly.currPoint.X) {
-                        this.primaryWeapon.fire(this.direction, this.currPoint);
-                    } else {
-                        this.primaryWeapon.nofire();
-                    }
-                } else { // Shoot left
-                    if (this.currPoint.X > firefly.currPoint.X) {
-                        this.primaryWeapon.fire(this.direction, this.currPoint);
-                    } else {
-                        this.primaryWeapon.nofire();
-                    }
+            // Add arrow if object is off screen.
+            if (this.currPoint.X < state.cameraX || this.currPoint.X > state.cameraX + 800 || this.currPoint.Y < state.cameraY || this.currPoint.Y > state.cameraY + 600) {
+                // Show arrow on edge of screen
+                if (this.currPoint.X < state.cameraX && this.currPoint.Y < state.cameraY) { // upper left corner
+                    ctx.drawImage(gameImages["arrowNorthWest"], state.cameraX + 2, state.cameraY + 2);
+                } else if (this.currPoint.X < state.cameraX && this.currPoint.Y > state.cameraY + 600) { // lower left corner
+                    ctx.drawImage(gameImages["arrowSouthWest"], state.cameraX + 2, state.cameraY + 585);
+                } else if (this.currPoint.X > state.cameraX + 800 && this.currPoint.Y < state.cameraY) { // upper right corner
+                    ctx.drawImage(gameImages["arrowNorthEast"], state.cameraX + 785, state.cameraY + 2);
+                } else if (this.currPoint.X > state.cameraX + 800 && this.currPoint.Y > state.cameraY + 600) { // lower right corner
+                    ctx.drawImage(gameImages["arrowSouthEast"], state.cameraX + 785, state.cameraY + 585);
+                } else if (this.currPoint.X < state.cameraX) { // Left side
+                    ctx.drawImage(gameImages["arrowWest"], state.cameraX + 2, this.currPoint.Y);
+                } else if (this.currPoint.X > state.cameraX + 800) { // Right Side
+                    ctx.drawImage(gameImages["arrowEast"], state.cameraX + 785, this.currPoint.Y);
+                } else if (this.currPoint.Y < state.cameraY) { // Top side
+                    ctx.drawImage(gameImages["arrowNorth"], this.currPoint.X, state.cameraY + 2);
+                } else if (this.currPoint.Y > state.cameraY + 600) { // Bottom side
+                    ctx.drawImage(gameImages["arrowSouth"], this.currPoint.X, state.cameraY + 585);
                 }
             } else {
-                this.primaryWeapon.nofire();
+                // Draw ship
+                if (this.direction == 'right') {
+                    ctx.drawImage(gameImages[this.ship + "1"], this.currPoint.X, this.currPoint.Y);
+                } else if (this.direction == 'left')  {
+                    ctx.drawImage(gameImages[this.ship + "2"], this.currPoint.X, this.currPoint.Y);
+                }
+
+                // Draw shield above ship
+                if (!this.noShield) {
+                    var percentageShield = this.shield / this.maxShield * 100;
+                    if (percentageShield > 66) {
+                        ctx.fillStyle = 'green';
+                    } else if (percentageShield > 33) {
+                        ctx.fillStyle = 'orange';
+                    } else {
+                        ctx.fillStyle = 'red';
+                    }
+                    var fillWidth = (gameImages[this.ship + "1"].width) * (percentageShield / 100);
+                    ctx.fillRect(this.currPoint.X + 1, this.currPoint.Y - 10, fillWidth, 5);
+                }
+
+                // draw smoke
+                var smokePoint = new Point(0, Math.random()*gameImages[this.ship + "1"].height + this.currPoint.Y);
+                if (this.direction == 'right') {
+                    smokePoint.X = this.currPoint.X - 2;
+                } else if (this.direction == 'left') {
+                    smokePoint.X = this.currPoint.X + 25;
+                }
+                var smoke = new Smoke(smokePoint);
+                state.drawObjects.push(smoke);
+            }
+
+            // Fire if Firefly is in front.
+            if (window.firefly) { // Firefly does not exist in menu
+                if (this.currPoint.Y + 10 > firefly.currPoint.Y && this.currPoint.Y - 10 < firefly.currPoint.Y) { // Firefly is in line of fire.
+                    // Shoot
+                    if (this.direction == 'right') { // Shoot right
+                        if (this.currPoint.X < firefly.currPoint.X) {
+                            this.primaryWeapon.fire(this.direction, this.currPoint);
+                        } else {
+                            this.primaryWeapon.nofire();
+                        }
+                    } else { // Shoot left
+                        if (this.currPoint.X > firefly.currPoint.X) {
+                            this.primaryWeapon.fire(this.direction, this.currPoint);
+                        } else {
+                            this.primaryWeapon.nofire();
+                        }
+                    }
+                } else {
+                    this.primaryWeapon.nofire();
+                }
             }
         }
     }
