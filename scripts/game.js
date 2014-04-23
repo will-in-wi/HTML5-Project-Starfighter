@@ -20,33 +20,25 @@ function start_mission(element) {
 }
 
 function game() {
-    var canvas = document.getElementById('game');
-    var ctx = canvas.getContext('2d');
-    ctx.restore();
 
-    window.cameraX = 0;
-    window.cameraY = 0;
+    var state = window.game_state;
+    state.reset();
+    state.ctx.restore();
 
     // Create starfields
-    window.starfieldBack = [];
     for (var i=0;i<=70;i=i+1) {
-        starfieldBack.push([Math.random()*800, Math.random()*600]);
+        state.starfieldBack.push([Math.random()*800, Math.random()*600]);
     }
-    window.starfieldMiddle = [];
     for (var i=0;i<=70;i=i+1) {
-        starfieldBack.push([Math.random()*800, Math.random()*600]);
+        state.starfieldMiddle.push([Math.random()*800, Math.random()*600]);
     }
-    window.starfieldFront = [];
     for (var i=0;i<=70;i=i+1) {
-        starfieldBack.push([Math.random()*800, Math.random()*600]);
+        state.starfieldFront.push([Math.random()*800, Math.random()*600]);
     }
-
-    // Initialize variables
-    window.drawObjects = [];
 
     // Add the firefly
-    window.firefly = new Firefly(new Point(100, 100));
-    drawObjects.push(firefly);
+    state.firefly = new Firefly(new Point(100, 100));
+    state.drawObjects.push(state.firefly);
 
     // TEMP - Remove later
     /*for (var i=1;i<=5;i=i+1) {
@@ -62,7 +54,7 @@ function game() {
         drawObjects.push(badguy);
     }*/
     var powerup = new PowerUp('rate', new Point(400,400), 10);
-    drawObjects.push(powerup);
+    state.drawObjects.push(powerup);
 
     // main loop
     setInterval(function() {
@@ -84,58 +76,58 @@ function game() {
 
     function draw() {
         // clear canvas
-        ctx.clearRect(cameraX, cameraY, $('#game').width(), $('#game').height());
+        state.ctx.clearRect(state.cameraX, state.cameraY, $('#game').width(), $('#game').height());
 
         // create background
-        ctx.drawImage(gameImages["spirit"], cameraX, cameraY);
+        state.ctx.drawImage(gameImages["spirit"], state.cameraX, state.cameraY);
 
         // Draw starfield
-        ctx.fillStyle = "gray";
-        for (var i=starfieldBack.length-1; i>=0; --i) {
-            var star = starfieldBack[i];
-            if (star[0] < cameraX) {
+        state.ctx.fillStyle = "gray";
+        for (var i=state.starfieldBack.length-1; i>=0; --i) {
+            var star = state.starfieldBack[i];
+            if (star[0] < state.cameraX) {
                 star[0] += 800;
-            } else if (star[0] > cameraX + 800) {
+            } else if (star[0] > state.cameraX + 800) {
                 star[0] -= 800;
             }
-            if (star[1] < cameraY) {
+            if (star[1] < state.cameraY) {
                 star[1] += 600;
-            } else if (star[1] > cameraY + 600) {
+            } else if (star[1] > state.cameraY + 600) {
                 star[1] -= 600;
             }
-            ctx.fillRect(star[0], star[1], 1, 1);
+            state.ctx.fillRect(star[0], star[1], 1, 1);
         }
 
         // Reap objects
-        drawObjects.forEach(function(obj, i, arr) {
+        state.drawObjects.forEach(function(obj, i, arr) {
             if (obj.reapMe == true) {
                 arr.splice(i, 1);
             }
         });
 
         // Draw all other objects
-        drawObjects.forEach(function(obj) {
-            obj.draw(ctx);
+        state.drawObjects.forEach(function(obj) {
+            obj.draw();
         });
 
         // Detect collisions
-        drawObjects.forEach(function(obj) {
+        state.drawObjects.forEach(function(obj) {
             if (obj.type == "good_shot") {
-                drawObjects.forEach(function(obj2) {
+                state.drawObjects.forEach(function(obj2) {
                     if (obj2.type == "bad_ship" && collision(obj, obj2)) {
                         obj2.shield -= obj.damage;
                         obj.reapMe = true;
                     }
                 });
             } else if (obj.type == "bad_shot") {
-                drawObjects.forEach(function(obj2) {
+                state.drawObjects.forEach(function(obj2) {
                     if (obj2.type == "good_ship" && collision(obj, obj2)) {
                         obj2.shield -= obj.damage;
                         obj.reapMe = true;
                     }
                 });
             } else if (obj.firefly) { // check for powerups.
-                drawObjects.forEach(function(obj2) {
+                state.drawObjects.forEach(function(obj2) {
                     if (obj2.type == 'pickup' && collision(obj, obj2)) {
                         obj.handlePowerup(obj2);
                         obj2.reapMe = true;
@@ -151,16 +143,16 @@ function game() {
 
 function drawScroller(element) {
 
+    var state = window.game_state;
+    state.reset();
+
     // Get scrolling text
     var scrollingText = [];
     $(element).children('text').children().each(function(index, interElement) {
         scrollingText.push($(interElement).html());
     });
 
-    var canvas = document.getElementById('game');
-    var ctx = canvas.getContext('2d');
-
-    ctx.save();
+    state.ctx.save();
 
     var currY = 620;
     var wait = 100;
@@ -176,24 +168,24 @@ function drawScroller(element) {
 
     function draw() {
         // clear canvas
-        ctx.clearRect(cameraX, cameraY, $('#game').width(), $('#game').height());
+        state.ctx.clearRect(state.cameraX, state.cameraY, $('#game').width(), $('#game').height());
 
         // create background
-        ctx.drawImage(gameImages[background], cameraX, cameraY);
+        state.ctx.drawImage(gameImages[background], state.cameraX, state.cameraY);
 
         // Draw text
-        ctx.font = "bolder 12pt 'Bitstream Vera Sans Mono'";
-        ctx.textAlign = 'center';
+        state.ctx.font = "bolder 12pt 'Bitstream Vera Sans Mono'";
+        state.ctx.textAlign = 'center';
 
         var i = 0;
         while (i < scrollingText.length) {
             // Draw shadow
-            ctx.fillStyle = 'black';
-            ctx.fillText(scrollingText[i], 401, currY + 1 + (i * 24));
+            state.ctx.fillStyle = 'black';
+            state.ctx.fillText(scrollingText[i], 401, currY + 1 + (i * 24));
 
             // Draw text
-            ctx.fillStyle = 'white';
-            ctx.fillText(scrollingText[i], 400, currY + (i * 24));
+            state.ctx.fillStyle = 'white';
+            state.ctx.fillText(scrollingText[i], 400, currY + (i * 24));
 
             i += 1;
         }
@@ -228,15 +220,12 @@ function drawScroller(element) {
 }
 
 function drawCutScene(element) {
-    var canvas = document.getElementById('game');
-    var ctx = canvas.getContext('2d');
 
-    ctx.save();
+    var state = window.game_state;
+
+    state.ctx.save();
 
     var currTime = 0;
-
-    // Initialize variables
-    window.drawObjects = [];
 
     // draw starfield
     var starfield = [];
@@ -260,14 +249,10 @@ function drawCutScene(element) {
         var weapon = new NoWeapon();
         var ship = new EnemyShip(ai, $(interElement).attr('type'), 1, weapon);
         ship.noShield = true;
-        drawObjects.push(ship);
+        state.drawObjects.push(ship);
     });
 
     var sceneSpeed = Number($(element).children('scene').attr('speed'));
-
-    // Camera tracking
-    window.cameraX = 0;
-    window.cameraY = 0;
 
     // main loop
     var mainLoop = setInterval(function() {
@@ -281,29 +266,29 @@ function drawCutScene(element) {
 
     function draw() {
         // clear canvas
-        ctx.clearRect(0, 0, $('#game').width(), $('#game').height());
+        state.ctx.clearRect(0, 0, $('#game').width(), $('#game').height());
 
-        cameraX += sceneSpeed;
-        ctx.translate(-sceneSpeed, 0);
+        state.cameraX += sceneSpeed;
+        state.ctx.translate(-sceneSpeed, 0);
 
         // create background
-        ctx.drawImage(gameImages["spirit"], cameraX, cameraY);
+        state.ctx.drawImage(gameImages["spirit"], state.cameraX, state.cameraY);
 
         // Draw starfield
-        ctx.fillStyle = "gray";
+        state.ctx.fillStyle = "gray";
         for (var i=starfield.length-1; i>=0; --i) {
             var star = starfield[i];
-            if (star[0] < cameraX) {
+            if (star[0] < state.cameraX) {
                 star[0] += 800;
-            } else if (star[0] > cameraX + 800) {
+            } else if (star[0] > state.cameraX + 800) {
                 star[0] -= 800;
             }
-            if (star[1] < cameraY) {
+            if (star[1] < state.cameraY) {
                 star[1] += 600;
-            } else if (star[1] > cameraY + 600) {
+            } else if (star[1] > state.cameraY + 600) {
                 star[1] -= 600;
             }
-            ctx.fillRect(star[0], star[1], 1, 1);
+            state.ctx.fillRect(star[0], star[1], 1, 1);
         }
 
         // Show messages
@@ -320,7 +305,7 @@ function drawCutScene(element) {
                     // Done
                     endCutScene();
                 } else {
-                    talkBox(text[currText].person, text[currText].text, new Point(100 + cameraX, 450), ctx);
+                    talkBox(text[currText].person, text[currText].text, new Point(100 + state.cameraX, 450), state.ctx);
                     count += 1;
                 }
             } else {
@@ -347,15 +332,15 @@ function drawCutScene(element) {
         }
 
         // Reap objects
-        drawObjects.forEach(function(obj, i, arr) {
+        state.drawObjects.forEach(function(obj, i, arr) {
             if (obj.reapMe == true) {
                 arr.splice(i, 1);
             }
         });
 
         // Draw all other objects
-        drawObjects.forEach(function(obj) {
-            obj.draw(ctx);
+        state.drawObjects.forEach(function(obj) {
+            obj.draw();
         });
 
         // Advance clock

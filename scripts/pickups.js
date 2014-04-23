@@ -1,5 +1,7 @@
 function PowerUp(category, startLoc, val) {
 
+    var state = window.game_state;
+
     // Make sure we copy the startLoc variable.
     this.currPoint = $.extend(true, {}, startLoc);
 
@@ -66,19 +68,19 @@ function PowerUp(category, startLoc, val) {
 
     this.width = 19;
     this.height = 19;
-}
 
-PowerUp.prototype.draw = function(ctx) {
-    // Calculate new location.
-    this.currPoint.X += this.Xspeed;
-    this.currPoint.Y += this.Yspeed;
+    this.draw = function() {
+        // Calculate new location.
+        this.currPoint.X += this.Xspeed;
+        this.currPoint.Y += this.Yspeed;
 
-    this.life += 1;
+        this.life += 1;
 
-    if (this.life >= this.lifeSpan) {
-        this.reapMe = true;
+        if (this.life >= this.lifeSpan) {
+            this.reapMe = true;
+        }
+
+        // Draw powerup
+        state.ctx.drawImage(this.gfx, this.currPoint.X, this.currPoint.Y);
     }
-
-    // Draw powerup
-    ctx.drawImage(this.gfx, this.currPoint.X, this.currPoint.Y);
 }

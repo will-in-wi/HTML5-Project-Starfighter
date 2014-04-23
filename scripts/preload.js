@@ -201,7 +201,8 @@ $(document).ready(function() {
             img.src = 'data/gfx/' + imgName;
         } else {
             //start_game();
-            main_menu();
+            // main_menu();
+            load_xml();
         }
     }
 });
