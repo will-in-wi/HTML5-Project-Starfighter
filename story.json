@@ -1,0 +1,187 @@
+[
+  {
+    "type" : "scroller",
+    "background" : "startUp",
+    "stop" : "25",
+    "text" : [
+      "2579AD",
+      "",
+      "",
+      "After decades of war the intergalatic weapons corporation, WEAPCO,",
+      "has defeated all opposition itself and now rules the known universe",
+      "with an iron fist. Using a huge number of powerful AI driven craft",
+      "the company was completely unstoppable.",
+      "",
+      "Under WEAPCO's rule, millions suffered and died.",
+      "",
+      "The people cried out for a saviour... for someone to come and",
+      "light this dark hour...",
+      "",
+      "",
+      "",
+      "... and someone did."
+    ]
+  },
+
+  {
+    "type" : "cutscene",
+    "background" : "spirit",
+    "scene" : {
+      "speed" : 10,
+      "ships" : [
+        {
+          "type" : "firefly",
+          "X" : 400,
+          "Y" : 300,
+          "speed" : 10
+        },
+
+        {
+          "type" : "dualFighter",
+          "X" : 50,
+          "Y" : 30,
+          "speed" : 10
+        },
+        {
+          "type" : "dualFighter",
+          "X" : 30,
+          "Y" : 65,
+          "speed" : 10
+        },
+        {
+          "type" : "dualFighter",
+          "X" : 15,
+          "Y" : 135,
+          "speed" : 10
+        },
+        {
+          "type" : "dualFighter",
+          "X" : 75,
+          "Y" : 135,
+          "speed" : 10
+        },
+        {
+          "type" : "dualFighter",
+          "X" : 45,
+          "Y" : 175,
+          "speed" : 10
+        },
+        {
+          "type" : "dualFighter",
+          "X" : 5,
+          "Y" : 210,
+          "speed" : 10
+        },
+        {
+          "type" : "dualFighter",
+          "X" : 50,
+          "Y" : 275,
+          "speed" : 10
+        },
+        {
+          "type" : "dualFighter",
+          "X" : 90,
+          "Y" : 330,
+          "speed" : 10
+        },
+        {
+          "type" : "dualFighter",
+          "X" : 55,
+          "Y" : 345,
+          "speed" : 10
+        },
+        {
+          "type" : "dualFighter",
+          "X" : 5,
+          "Y" : 350,
+          "speed" : 10
+        },
+        {
+          "type" : "dualFighter",
+          "X" : 60,
+          "Y" : 365,
+          "speed" : 10
+        },
+        {
+          "type" : "dualFighter",
+          "X" : 45,
+          "Y" : 410,
+          "speed" : 10
+        },
+        {
+          "type" : "dualFighter",
+          "X" : 2,
+          "Y" : 505,
+          "speed" : 10
+        },
+        {
+          "type" : "dualFighter",
+          "X" : 40,
+          "Y" : 515,
+          "speed" : 10
+        }
+      ]
+    },
+    "dialogue" : [
+      {
+        "person" : "none",
+        "text" : "While escaping with his newly acquired Firefly, Chris Bainfield is intercepted by a WEAPCO patrol..."
+      },
+      {
+        "person" : "chris",
+        "text" : "These things are persistant! Human pilots would have given up by now!"
+      },
+      {
+        "person" : "chris",
+        "text" : "I'm getting too close to my rendezvous point. If I don't shake these guys soon then everything could be over before it begins!"
+      },
+      {
+        "person" : "chris",
+        "text" : "This is hopeless! I've got no choice - Even though I'm unfamiliar with this craft I'm going to have to fight them!"
+      }
+    ]
+  },
+
+  {
+    "type" : "mission",
+    "badGuys" : [
+      {
+        "ship" : "dualFighter",
+        "start" : 0
+      },
+      {
+        "ship" : "dualfighter",
+        "start" : 0
+      },
+      {
+        "ship" : "dualFighter",
+        "start" : 0
+      },
+      {
+        "ship" : "dualfighter",
+        "start" : 0
+      },
+      {
+        "ship" : "dualFighter",
+        "start" : 0
+      },
+
+      {
+        "ship" : "transport",
+        "start" : 0
+      },
+      {
+        "ship" : "transport",
+        "start" : 0
+      },
+      {
+        "ship" : "transport",
+        "start" : 0
+      }
+    ],
+    "objectives" : {
+      "importance" : "primary",
+      "objective" : "allKilled"
+    }
+  }
+]

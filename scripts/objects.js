@@ -17,6 +17,7 @@ function EnemyShip(ai, ship, shield, primaryWeapon) {
     this.direction = 'right';
 
     // Used for cutscenes, menus, etc...
+    // TODO: Replace with shield = null.
     this.noShield = false;
 
     this.shield = shield;

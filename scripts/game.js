@@ -146,20 +146,10 @@ function drawScroller(element) {
     var state = window.game_state;
     state.reset();
 
-    // Get scrolling text
-    var scrollingText = [];
-    $(element).children('text').children().each(function(index, interElement) {
-        scrollingText.push($(interElement).html());
-    });
-
     state.ctx.save();
 
     var currY = 620;
     var wait = 100;
-
-    // Get settings
-    var background = $(element).attr('background');
-    var stop = $(element).attr('stop');
 
     // main loop
     var mainLoop = setInterval(function() {
@@ -171,26 +161,26 @@ function drawScroller(element) {
         state.ctx.clearRect(state.cameraX, state.cameraY, $('#game').width(), $('#game').height());
 
         // create background
-        state.ctx.drawImage(gameImages[background], state.cameraX, state.cameraY);
+        state.ctx.drawImage(gameImages[element.background], state.cameraX, state.cameraY);
 
         // Draw text
         state.ctx.font = "bolder 12pt 'Bitstream Vera Sans Mono'";
         state.ctx.textAlign = 'center';
 
         var i = 0;
-        while (i < scrollingText.length) {
+        while (i < element.text.length) {
             // Draw shadow
             state.ctx.fillStyle = 'black';
-            state.ctx.fillText(scrollingText[i], 401, currY + 1 + (i * 24));
+            state.ctx.fillText(element.text[i], 401, currY + 1 + (i * 24));
 
             // Draw text
             state.ctx.fillStyle = 'white';
-            state.ctx.fillText(scrollingText[i], 400, currY + (i * 24));
+            state.ctx.fillText(element.text[i], 400, currY + (i * 24));
 
             i += 1;
         }
 
-        if (currY > stop) {
+        if (currY > element.stop) {
             currY -= 1;
         } else {
             if (wait > 0) {
@@ -235,24 +225,24 @@ function drawCutScene(element) {
 
     // Grab Text snippits
     var text = [];
-    $(element).children('dialogue').children().each(function(index, interElement) {
+    for (var i = 0; i < element.dialogue.length; i++) {
         var talk = [];
-        talk.text = $(interElement).html();
-        talk.person = $(interElement).attr('person');
+        talk.text = element.dialogue[i].text;
+        talk.person = element.dialogue[i].person;
         text.push(talk);
-    });
+    };
 
 
     // Set up scene
-    $(element).children('scene').children().each(function(index, interElement) {
-        var ai = new FlyStraightAI(Number($(interElement).attr('speed')), new Point(Number($(interElement).attr('X')), Number($(interElement).attr('Y'))));
+    for (var i = 0; i < element.scene.ships.length; i++) {
+        var ai = new FlyStraightAI(element.scene.ships[i].speed, new Point(element.scene.ships[i].X, element.scene.ships[i].Y));
         var weapon = new NoWeapon();
-        var ship = new EnemyShip(ai, $(interElement).attr('type'), 1, weapon);
+        var ship = new EnemyShip(ai, element.scene.ships[i].type, 1, weapon);
         ship.noShield = true;
         state.drawObjects.push(ship);
-    });
+    };
 
-    var sceneSpeed = Number($(element).children('scene').attr('speed'));
+    var sceneSpeed = Number(element.scene.speed);
 
     // main loop
     var mainLoop = setInterval(function() {
@@ -349,12 +339,10 @@ function drawCutScene(element) {
 }
 
 // Handle XML mission file.
-function load_xml() {
-    $.get('game.xml', function(data) {
-        window.game_play = [];
-        $(data).children().each(function(index, element) {
-            game_play.push(element);
-        });
+function loadStory(storyName) {
+    // TODO: Get rid of jQuery. We can assume a sane environment.
+    $.getJSON(storyName + '.json', function(data) {
+        window.game_play = data;
 
         // Used to determine whether the game is currently in a system.
         window.inSystem = false;
@@ -366,7 +354,7 @@ function load_xml() {
 // Advance to next top-level part of the game.
 function handle_next() {
     var next = game_play.shift();
-    switch (next.localName) {
+    switch (next.type) {
         case 'scroller':
             drawScroller(next);
             break;
@@ -375,5 +363,8 @@ function handle_next() {
             break;
         case 'mission':
             start_mission(next);
+            break;
+        default:
+            console.log(game_play);
     }
 }

@@ -89,7 +89,7 @@ function main_menu() {
             clearInterval(menu_loop);
             $("#main-menu").remove();
             //start_game();
-            load_xml();
+            loadStory('story');
         });
 
         $("#options").click(function() {
