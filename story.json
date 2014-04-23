@@ -179,9 +179,11 @@
         "start" : 0
       }
     ],
-    "objectives" : {
-      "importance" : "primary",
-      "objective" : "allKilled"
-    }
+    "objectives" : [
+      {
+        "importance" : "primary",
+        "objective" : "allKilled"
+      }
+    ]
   }
 ]
