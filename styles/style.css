@@ -7,7 +7,7 @@ body {
   text-align: center;
   width: 800px;
 
-  background-image: url("data/gfx/sflogo.png");
+  background-image: url("../data/gfx/sflogo.png");
   background-repeat: no-repeat;
   background-position: center top;
   padding-top: 80px;
