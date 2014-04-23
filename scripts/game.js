@@ -16,14 +16,29 @@ function start_mission(element) {
 
     */
 
+    var state = window.game_state;
+    state.reset();
+    state.ctx.restore();
 
+    // Add the firefly
+    state.firefly = new Firefly(new Point(100, 100));
+    state.drawObjects.push(state.firefly);
+
+    // Add baddies.
+    // TODO: Add based on time.
+    for (var i = 0; i < element.badGuys.length; i++) {
+        var ai = new AI(100, new Point(Math.random()*800, Math.random()*600));
+        var weapon = new NormalBadShot();
+        var badguy = new EnemyShip(ai, element.badGuys[i].ship, 50, weapon);
+        state.drawObjects.push(badguy);
+    };
+
+    game();
 }
 
 function game() {
 
     var state = window.game_state;
-    state.reset();
-    state.ctx.restore();
 
     // Create starfields
     for (var i=0;i<=70;i=i+1) {
@@ -36,23 +51,6 @@ function game() {
         state.starfieldFront.push([Math.random()*800, Math.random()*600]);
     }
 
-    // Add the firefly
-    state.firefly = new Firefly(new Point(100, 100));
-    state.drawObjects.push(state.firefly);
-
-    // TEMP - Remove later
-    /*for (var i=1;i<=5;i=i+1) {
-        var ai = new AI(100, new Point(Math.random()*800, Math.random()*600));
-        var weapon = new NormalBadShot();
-        var badguy = new EnemyShip(ai, "dualFighter", 50, weapon);
-        drawObjects.push(badguy);
-    }
-    for (var i=1;i<=3;i=i+1) {
-        var ai = new AI(100, new Point(Math.random()*800, Math.random()*600));
-        var weapon = new NoWeapon();
-        var badguy = new EnemyShip(ai, "transport", 100, weapon);
-        drawObjects.push(badguy);
-    }*/
     var powerup = new PowerUp('rate', new Point(400,400), 10);
     state.drawObjects.push(powerup);
 

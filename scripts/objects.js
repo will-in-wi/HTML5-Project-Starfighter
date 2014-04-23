@@ -246,6 +246,9 @@ function Mission(objectives, title, description) {
 
 // AI object
 function AI(attack, startPoint) {
+
+    var state = window.game_state;
+
     this.goalPoint = startPoint;
     this.currPoint = startPoint;
 
@@ -272,8 +275,8 @@ function AI(attack, startPoint) {
             } else {
                 // Decide where to go.
                 // The ship will not go further than 800 pixels from the firefly.
-                this.goalPoint.X = Math.floor(Math.random()*800) + firefly.currPoint.X - 400;
-                this.goalPoint.Y = Math.floor(Math.random()*800) + firefly.currPoint.Y - 400;
+                this.goalPoint.X = Math.floor(Math.random()*800) + state.firefly.currPoint.X - 400;
+                this.goalPoint.Y = Math.floor(Math.random()*800) + state.firefly.currPoint.Y - 400;
             }
         } else {
             // Continue traveling to the predetermined point.
