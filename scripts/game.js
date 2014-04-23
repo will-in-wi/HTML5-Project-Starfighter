@@ -1,3 +1,5 @@
+'strict mode';
+
 function start_mission(element) {
     /*
         I need to obtain settings from the element, turn them into some kind of object, and pass that
@@ -17,7 +19,7 @@ function start_mission(element) {
 
 }
 
-function start_game() {
+function game() {
     var canvas = document.getElementById('game');
     var ctx = canvas.getContext('2d');
     ctx.restore();
