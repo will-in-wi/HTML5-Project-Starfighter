@@ -37,6 +37,7 @@ function Firefly(startPoint) {
         var CAMERAEDGE = 75;
 
         if (this.shield <= 0) {
+            // TODO: Die method.
             // I have been shot.
             this.reapMe = true;
             var explodeMe = new Explosion(this.currPoint);
