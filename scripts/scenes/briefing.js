@@ -14,13 +14,7 @@ function Briefing(element) {
         var loc = new Point(150 + state.cameraX, 70);
 
         // Draw green background.
-        var grd = state.ctx.createLinearGradient(0,0,0,600);
-        grd.addColorStop(0,"black");
-        grd.addColorStop(0.5,"green");
-        grd.addColorStop(1,"black");
-
-        state.ctx.fillStyle = grd;
-        state.ctx.fillRect(0,0,800,600);
+        Widgets.backgrounds.green_gradient();
 
         // Objectives
         var primaryObjectivesText = [];

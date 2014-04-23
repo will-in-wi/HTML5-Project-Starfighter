@@ -46,5 +46,19 @@ var Widgets = {
         // Draw text
         state.ctx.fillStyle = 'white';
         state.ctx.fillText(text, loc.X, loc.Y);
+    },
+
+    backgrounds : {
+        green_gradient : function() {
+            var state = window.game_state;
+
+            var grd = state.ctx.createLinearGradient(0,0,0,600);
+            grd.addColorStop(0,"black");
+            grd.addColorStop(0.5,"green");
+            grd.addColorStop(1,"black");
+
+            state.ctx.fillStyle = grd;
+            state.ctx.fillRect(0,0,800,600);
+        }
     }
 };
