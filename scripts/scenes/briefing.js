@@ -9,6 +9,10 @@ function Briefing(element) {
     state.reset();
     state.ctx.restore();
 
+    this.main_loop_interval = null;
+
+    this.completion_promise = new jQuery.Deferred();
+
     this.draw = function () {
 
         var loc = new Point(150 + state.cameraX, 70);
@@ -41,10 +45,24 @@ function Briefing(element) {
         Widgets.header_box(loc.move(0, 320), c2, 'Additional Information', [element.additional_information]);
 
         Widgets.text(loc.move(120, 490), 'Press [CTRL] or Fire to continue…');
+
+        if (kbd.ctrl == true) { // Skip scene
+            kbd.ctrl = false; // Force the user to press the key again.
+            clearInterval(me.main_loop_interval);
+            this.completion_promise.resolve();
+            // endBriefing();
+        }
     }
 
     this.main_loop = function () {
-        // Only one image, so just mock the main_loop.
         me.draw();
+
+        me.main_loop_interval = setInterval(function() {
+            // Looping for the keyboard.
+            // TODO: Fix this to be event driven.
+            me.draw();
+        }, 40);
+
+        return this.completion_promise;
     }
 }

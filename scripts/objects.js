@@ -12,17 +12,3 @@ function Objective(title, description) {
         return true;
     }
 }
-
-// objectives is an array of objective objects.
-function Mission(objectives, title, description) {
-    this.objectives = objectives;
-    this.completedObjectives = [];
-    this.title = title;
-    this.description = description;
-
-    this.completed = function() {
-        for (var objective in this.objectives) {
-
-        }
-    }
-}

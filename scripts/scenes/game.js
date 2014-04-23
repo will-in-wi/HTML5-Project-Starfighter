@@ -1,42 +1,5 @@
 'use strict';
 
-function start_mission(element) {
-    /*
-        I need to obtain settings from the element, turn them into some kind of object, and pass that
-        to the actual game.
-
-        Pass object to briefing, briefing passes to game, game passes to debriefing, debriefing is done.
-
-        Info game needs:
-            ships
-            objectives
-            dialogue
-            Additional info text
-
-
-    */
-
-    var state = window.game_state;
-    state.reset();
-    state.ctx.restore();
-
-    // Add the firefly
-    state.firefly = new Firefly(new Point(100, 100));
-    state.drawObjects.push(state.firefly);
-
-    // Add baddies.
-    // TODO: Add based on time.
-    for (var i = 0; i < element.badGuys.length; i++) {
-        var ai = new AI(100, new Point(Math.random()*800, Math.random()*600));
-        var weapon = new NormalBadShot();
-        var badguy = new EnemyShip(ai, element.badGuys[i].ship, 50, weapon);
-        state.drawObjects.push(badguy);
-    };
-
-    var game = new Game();
-    game.main_loop();
-}
-
 function Game() {
 
     var me = this;
@@ -168,7 +131,8 @@ function handle_next() {
             scene.main_loop();
             break;
         case 'mission':
-            start_mission(next);
+            var mission = new Mission(next);
+            mission.start();
             break;
         default:
             console.log('Invalid story element: ' + next.type);
