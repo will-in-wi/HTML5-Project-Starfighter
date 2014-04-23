@@ -85,7 +85,7 @@ function Game() {
                         obj.reapMe = true;
                     }
                 });
-            } else if (obj.firefly) { // check for powerups.
+            } else if (obj.handlePowerup) { // check for powerups.
                 state.drawObjects.forEach(function(obj2) {
                     if (obj2.type == 'pickup' && collision(obj, obj2)) {
                         obj.handlePowerup(obj2);

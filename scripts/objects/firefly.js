@@ -24,9 +24,6 @@ function Firefly(startPoint) {
     // Can be 'right' or 'left';
     this.direction = 'right';
 
-    // Make it easier to detect whether this object is the firefly.
-    this.firefly = true;
-
     this.reapMe = false;
     this.type = 'good_ship';
 
