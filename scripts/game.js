@@ -365,6 +365,6 @@ function handle_next() {
             start_mission(next);
             break;
         default:
-            console.log(game_play);
+            console.log('Invalid story element: ' + next.type);
     }
 }
