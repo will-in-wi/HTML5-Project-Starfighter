@@ -32,10 +32,10 @@ $(document).keydown(function(event) {
         case 37: // Left arrow
             kbd.leftArrow = true;
             break;
-        case 17: // Ctrl - Fire
+        case 70: // Ctrl - Fire
             kbd.ctrl = true;
             break;
-        case 16: // Shift - Secondary weapon
+        case 68: // Shift - Secondary weapon
             kbd.shift = true;
             break;
     }
@@ -56,10 +56,10 @@ $(document).keyup(function(event) {
         case 37: // Left arrow
             kbd.leftArrow = false;
             break;
-        case 17: // Ctrl - Fire
+        case 70: // Ctrl - Fire
             kbd.ctrl = false;
             break;
-        case 16: // Shift - Secondary weapon
+        case 68: // Shift - Secondary weapon
             kbd.shift = false;
             break;
     }

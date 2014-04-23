@@ -44,7 +44,7 @@ function Briefing(element) {
         var c2 = new Color(115, 117, 0);
         Widgets.header_box(loc.move(0, 320), c2, 'Additional Information', [element.additional_information]);
 
-        Widgets.text(loc.move(120, 490), 'Press [CTRL] or Fire to continue…');
+        Widgets.text(loc.move(120, 490), 'Press [F] or Fire to continue…');
 
         if (kbd.ctrl == true) { // Skip scene
             kbd.ctrl = false; // Force the user to press the key again.
