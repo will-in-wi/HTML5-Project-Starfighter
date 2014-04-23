@@ -10,23 +10,23 @@ function EnemyShip(ai, ship, shield, primaryWeapon) {
   this.destroyStep = 5;
   this.destroyStepFirst = true;
   this.direction = 'right';
-  
+
   // Used for cutscenes, menus, etc...
   this.noShield = false;
-  
+
   this.shield = shield;
   this.maxShield = shield;
-  
+
   this.primaryWeapon = primaryWeapon;
   this.secondaryWeapon = new NoWeapon();
-  
+
   // Shot limiter
   this.shotState = 10;
-  
+
   // collision box
   this.width = gameImages[ship + "1"].width;
   this.height = gameImages[ship + "1"].height;
-  
+
   this.reapMe = false;
   this.type = "bad_ship";
 }
@@ -39,16 +39,16 @@ EnemyShip.prototype.draw = function (ctx) {
   } else {
     // Get new location from AI.
     var newPoint = this.AI.whereTo();
-    
+
     // determine left vs. right from change in X.
     if (newPoint.X > this.currPoint.X) {
       this.direction = 'right';
     } else if (newPoint.X < this.currPoint.X) {
       this.direction = 'left';
     }
-    
+
     this.currPoint = newPoint;
-    
+
     // Add arrow if object is off screen.
     if (this.currPoint.X < cameraX || this.currPoint.X > cameraX + 800 || this.currPoint.Y < cameraY || this.currPoint.Y > cameraY + 600) {
       // Show arrow on edge of screen
@@ -76,7 +76,7 @@ EnemyShip.prototype.draw = function (ctx) {
       } else if (this.direction == 'left')  {
         ctx.drawImage(gameImages[this.ship + "2"], this.currPoint.X, this.currPoint.Y);
       }
-      
+
       // Draw shield above ship
       if (!this.noShield) {
         var percentageShield = this.shield / this.maxShield * 100;
@@ -90,7 +90,7 @@ EnemyShip.prototype.draw = function (ctx) {
         var fillWidth = (gameImages[this.ship + "1"].width) * (percentageShield / 100);
         ctx.fillRect(this.currPoint.X + 1, this.currPoint.Y - 10, fillWidth, 5);
       }
-      
+
       // draw smoke
       var smokePoint = new Point(0, Math.random()*gameImages[this.ship + "1"].height + this.currPoint.Y);
       if (this.direction == 'right') {
@@ -101,7 +101,7 @@ EnemyShip.prototype.draw = function (ctx) {
       var smoke = new Smoke(smokePoint);
       drawObjects.push(smoke);
     }
-    
+
     // Fire if Firefly is in front.
     if (window.firefly) { // Firefly does not exist in menu
       if (this.currPoint.Y + 10 > firefly.currPoint.Y && this.currPoint.Y - 10 < firefly.currPoint.Y) { // Firefly is in line of fire.
@@ -129,16 +129,16 @@ EnemyShip.prototype.draw = function (ctx) {
 // Explosion
 function Explosion(startPoint) {
   this.currPoint = startPoint;
-  
+
   this.step = 1;
-  
+
   this.reapMe = false;
   this.type = "no_explode";
 }
 
 Explosion.prototype.draw = function (ctx) {
   var img = new Image();
-  
+
   switch (this.step) {
     case 1:
       playSound("data/sound/explode");
@@ -162,16 +162,16 @@ Explosion.prototype.draw = function (ctx) {
     default:
       this.reapMe = true;
   }
-  
+
   this.step = this.step + 1;
 }
 
 // Smoke
 function Smoke(startPoint) {
   this.currPoint = startPoint;
-  
+
   this.step = 1;
-  
+
   this.reapMe = false;
   this.type = "no_explode";
 }
@@ -205,7 +205,7 @@ Smoke.prototype.draw = function (ctx) {
   this.step = this.step + 1;
 }
 
-// An objective has a title and description, but must also implement the 
+// An objective has a title and description, but must also implement the
 // completed function which checks to see whether the objective has
 // been completed.
 function Objective(title, description) {
@@ -228,7 +228,7 @@ function Mission(objectives, title, description) {
 
 Mission.prototype.completed = function() {
   for (var objective in this.objectives) {
-    
+
   }
 }
 
@@ -236,20 +236,20 @@ Mission.prototype.completed = function() {
 function AI(attack, startPoint) {
   this.goalPoint = startPoint;
   this.currPoint = startPoint;
-  
+
   // if 0, then doing something. Otherwise, counts down every frame.
   this.wait = 0;
-  
+
   this.attack = attack;
 }
 
 AI.prototype.whereTo = function() {
   // Travels at constant rate
   var SPEED = 9;
-  
+
   // called each frame. Goes to the specified point. Once there, calculates a new one.
   var retPoint = new Point(this.currPoint.X, this.currPoint.Y);
-  
+
   if (this.wait != 0) {
     // Continue waiting.
     this.wait -= 1;
@@ -278,7 +278,7 @@ AI.prototype.whereTo = function() {
         retPoint.X = this.currPoint.X - SPEED;
       }
     }
-    
+
     if (Math.abs(this.goalPoint.Y - this.currPoint.Y) < SPEED) {
       retPoint.Y = this.goalPoint.Y;
     } else {
@@ -289,7 +289,7 @@ AI.prototype.whereTo = function() {
       }
     }
   }
-  
+
   this.currPoint = retPoint;
   return retPoint;
 }
@@ -303,7 +303,7 @@ function FlyStraightAI(speed, startPoint) {
 
 FlyStraightAI.prototype.whereTo = function() {
   this.currPoint.X += this.speed;
-  
+
   return this.currPoint;
 }
 

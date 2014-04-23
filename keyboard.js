@@ -6,7 +6,7 @@ function Keyboard() {
   // Up arrow = 38
   // Ctrl = 17
   // Shift = 16
-  
+
   this.downArrow = false;
   this.upArrow = false;
   this.rightArrow = false;
@@ -15,7 +15,7 @@ function Keyboard() {
   this.shift = false;
 }
 
-window.kbd = new Keyboard(); 
+window.kbd = new Keyboard();
 $(document).keydown(function(event) {
   switch(event.which) {
     case 40: // Down arrow

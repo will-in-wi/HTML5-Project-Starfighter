@@ -5,7 +5,7 @@
 $(document).ready(function() {
   // Start preloading with images
   window.gameImages = [];
-  
+
   var objects = ["aimFighter1.png",
                   "aimFighter2.png",
                   "alienDevice.png",
@@ -182,9 +182,9 @@ $(document).ready(function() {
                   "tug2.png",
                   "wingmate1.png",
                   "wingmate2.png"];
-  
+
   load_object();
-  
+
   function load_object() {
     if (objects.length != 0) {
       var imgName = objects.shift();

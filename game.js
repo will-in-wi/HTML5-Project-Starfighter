@@ -2,29 +2,29 @@ function start_mission(element) {
   /*
     I need to obtain settings from the element, turn them into some kind of object, and pass that
     to the actual game.
-    
+
     Pass object to briefing, briefing passes to game, game passes to debriefing, debriefing is done.
-    
+
     Info game needs:
       ships
       objectives
       dialogue
       Additional info text
-      
-      
+
+
   */
-  
-  
+
+
 }
 
 function start_game() {
   var canvas = document.getElementById('game');
   var ctx = canvas.getContext('2d');
   ctx.restore();
-  
+
   window.cameraX = 0;
   window.cameraY = 0;
-  
+
   // Create starfields
   window.starfieldBack = [];
   for (var i=0;i<=70;i=i+1) {
@@ -38,14 +38,14 @@ function start_game() {
   for (var i=0;i<=70;i=i+1) {
     starfieldBack.push([Math.random()*800, Math.random()*600]);
   }
-  
+
   // Initialize variables
   window.drawObjects = [];
-  
+
   // Add the firefly
   window.firefly = new Firefly(new Point(100, 100));
   drawObjects.push(firefly);
-  
+
   // TEMP - Remove later
   /*for (var i=1;i<=5;i=i+1) {
     var ai = new AI(100, new Point(Math.random()*800, Math.random()*600));
@@ -61,12 +61,12 @@ function start_game() {
   }*/
   var powerup = new PowerUp('rate', new Point(400,400), 10);
   drawObjects.push(powerup);
-  
+
   // main loop
   setInterval(function() {
     draw();
   }, 40);
-  
+
   function collision(obj1, obj2) {
     if (!(obj1.currPoint.X + obj1.width < obj2.currPoint.X ||
         obj2.currPoint.X + obj2.width < obj1.currPoint.X ||
@@ -79,14 +79,14 @@ function start_game() {
       return false;
     }
   }
-  
+
   function draw() {
     // clear canvas
     ctx.clearRect(cameraX, cameraY, $('#game').width(), $('#game').height());
-    
+
     // create background
     ctx.drawImage(gameImages["spirit"], cameraX, cameraY);
-    
+
     // Draw starfield
     ctx.fillStyle = "gray";
     for (var i=starfieldBack.length-1; i>=0; --i) {
@@ -103,19 +103,19 @@ function start_game() {
       }
       ctx.fillRect(star[0], star[1], 1, 1);
     }
-    
+
     // Reap objects
     drawObjects.forEach(function(obj, i, arr) {
       if (obj.reapMe == true) {
         arr.splice(i, 1);
       }
     });
-    
+
     // Draw all other objects
     drawObjects.forEach(function(obj) {
       obj.draw(ctx);
     });
-    
+
     // Detect collisions
     drawObjects.forEach(function(obj) {
       if (obj.type == "good_shot") {
@@ -142,60 +142,60 @@ function start_game() {
       }
     });
   }
-  
+
   // Initial draw
   draw();
 }
 
 function drawScroller(element) {
-  
+
   // Get scrolling text
   var scrollingText = [];
   $(element).children('text').children().each(function(index, interElement) {
     scrollingText.push($(interElement).html());
   });
-  
+
   var canvas = document.getElementById('game');
   var ctx = canvas.getContext('2d');
-  
+
   ctx.save();
-  
+
   var currY = 620;
   var wait = 100;
-  
+
   // Get settings
   var background = $(element).attr('background');
   var stop = $(element).attr('stop');
-  
+
   // main loop
   var mainLoop = setInterval(function() {
     draw();
   }, 40);
-  
+
   function draw() {
     // clear canvas
     ctx.clearRect(cameraX, cameraY, $('#game').width(), $('#game').height());
-    
+
     // create background
     ctx.drawImage(gameImages[background], cameraX, cameraY);
-    
+
     // Draw text
     ctx.font = "bolder 12pt 'Bitstream Vera Sans Mono'";
     ctx.textAlign = 'center';
-    
+
     var i = 0;
     while (i < scrollingText.length) {
       // Draw shadow
       ctx.fillStyle = 'black';
       ctx.fillText(scrollingText[i], 401, currY + 1 + (i * 24));
-      
+
       // Draw text
       ctx.fillStyle = 'white';
       ctx.fillText(scrollingText[i], 400, currY + (i * 24));
-      
+
       i += 1;
     }
-    
+
     if (currY > stop) {
       currY -= 1;
     } else {
@@ -205,16 +205,16 @@ function drawScroller(element) {
         exit_scroller();
       }
     }
-    
+
     // Cancel when the user pushes ctrl
     if (kbd.ctrl == true) {
       kbd.ctrl = false; // Force the user to press the key again.
       exit_scroller();
     }
-    
+
     function exit_scroller() {
       clearInterval(mainLoop);
-      
+
       // Decide what function gets execution.
       if (inSystem == false) {
         handle_next();
@@ -228,20 +228,20 @@ function drawScroller(element) {
 function drawCutScene(element) {
   var canvas = document.getElementById('game');
   var ctx = canvas.getContext('2d');
-  
+
   ctx.save();
-  
+
   var currTime = 0;
-  
+
   // Initialize variables
   window.drawObjects = [];
-  
+
   // draw starfield
   var starfield = [];
   for (var i=0;i<=70;i=i+1) {
     starfield.push([Math.random()*800, Math.random()*600]);
   }
-  
+
   // Grab Text snippits
   var text = [];
   $(element).children('dialogue').children().each(function(index, interElement) {
@@ -250,8 +250,8 @@ function drawCutScene(element) {
     talk.person = $(interElement).attr('person');
     text.push(talk);
   });
-  
-  
+
+
   // Set up scene
   $(element).children('scene').children().each(function(index, interElement) {
     var ai = new FlyStraightAI(Number($(interElement).attr('speed')), new Point(Number($(interElement).attr('X')), Number($(interElement).attr('Y'))));
@@ -260,33 +260,33 @@ function drawCutScene(element) {
     ship.noShield = true;
     drawObjects.push(ship);
   });
-  
+
   var sceneSpeed = Number($(element).children('scene').attr('speed'));
-  
+
   // Camera tracking
   window.cameraX = 0;
   window.cameraY = 0;
-  
+
   // main loop
   var mainLoop = setInterval(function() {
     draw();
   }, 40);
-  
+
   // Draw state tracking
   var currState = 'pause'; // Can be pause or talk
   var count = 0;
   var currText = 0;
-  
+
   function draw() {
     // clear canvas
     ctx.clearRect(0, 0, $('#game').width(), $('#game').height());
-    
+
     cameraX += sceneSpeed;
     ctx.translate(-sceneSpeed, 0);
-    
+
     // create background
     ctx.drawImage(gameImages["spirit"], cameraX, cameraY);
-    
+
     // Draw starfield
     ctx.fillStyle = "gray";
     for (var i=starfield.length-1; i>=0; --i) {
@@ -303,7 +303,7 @@ function drawCutScene(element) {
       }
       ctx.fillRect(star[0], star[1], 1, 1);
     }
-    
+
     // Show messages
     if (currState == 'pause') {
       if (count < 50) {
@@ -327,10 +327,10 @@ function drawCutScene(element) {
         currText += 1;
       }
     }
-    
+
     function endCutScene() {
       clearInterval(mainLoop);
-      
+
       // Decide what function gets execution.
       if (inSystem == false) {
         handle_next();
@@ -338,24 +338,24 @@ function drawCutScene(element) {
         // TODO: go to next scene in system
       }
     }
-    
+
     if (kbd.ctrl == true) { // Skip scene
       kbd.ctrl = false; // Force the user to press the key again.
       endCutScene();
     }
-    
+
     // Reap objects
     drawObjects.forEach(function(obj, i, arr) {
       if (obj.reapMe == true) {
         arr.splice(i, 1);
       }
     });
-    
+
     // Draw all other objects
     drawObjects.forEach(function(obj) {
       obj.draw(ctx);
     });
-    
+
     // Advance clock
     currTime += 1;
   }
@@ -368,10 +368,10 @@ function load_xml() {
     $(data).children().each(function(index, element) {
       game_play.push(element);
     });
-    
+
     // Used to determine whether the game is currently in a system.
     window.inSystem = false;
-    
+
     handle_next();
   });
 }

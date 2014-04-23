@@ -6,16 +6,16 @@ function Shot(startPoint, gfx, side, direction, damage) {
   this.startPoint = startPoint;
   this.speed = 25;
   this.direction = direction;
-  
+
   this.damage = damage;
-  
+
   // collision box
   this.width = gfx.width;
   this.height = gfx.height;
-  
+
   this.reapMe = false;
   this.type = side + "_shot";
-  
+
   // Shot was just created, make fire sound.
   //playSound("data/sound/plasma");
 }
@@ -36,10 +36,10 @@ Shot.prototype.draw = function (ctx) {
 
 // Normal shot for good guys.
 function NormalGoodShot() {
-  
+
   // Number of shots in blast
   this.numShots = 1;
-  
+
   // Powerups
   this.possibleSpeed = 5;
   this.speed = 1; // real speed = 9 - speed.
@@ -47,14 +47,14 @@ function NormalGoodShot() {
   this.shots = 1; // Number of shots at a time.
   this.possibleDamage = 5;
   this.damage = 1; // real damage = damage * 10;
-  
+
   // Tracks number of frames since last shot.
   this.shotState = this.speed;
-  
+
   // Plasma numbers
   this.maxPlasmaShots = 100;
   this.plasmaShots = 0;
-  
+
   // Spread or not
   this.spread = false;
 }
@@ -71,7 +71,7 @@ NormalGoodShot.prototype.fire = function(direction, currPoint) {
       this.shots = 1;
       this.damage = 1;
     }
-    
+
     var shotLoc = $.extend(true, {}, currPoint);
     shotLoc.Y += 3;
     for (var i = 0; i <= this.shots - 1; i = i + 1) {
@@ -102,13 +102,13 @@ function Rocket(startPoint, side, direction) {
   this.startPoint = startPoint;
   this.speed = 35;
   this.direction = direction;
-  
+
   this.damage = 100;
-  
+
   // collision box
   this.width = 20;
   this.height = 7;
-  
+
   this.reapMe = false;
   this.type = side + "_shot";
 }
@@ -120,7 +120,7 @@ Rocket.prototype.draw = function (ctx) {
     // Draw smoke
     var smoke = new Smoke(new Point(this.currPoint.X, this.currPoint.Y + 2));
     drawObjects.push(smoke);
-    
+
     // Draw missle
     if (this.direction == 'right') {
       this.currPoint.X = this.currPoint.X + this.speed;
@@ -138,14 +138,14 @@ function Missle() {
   // Tracks number of frames since last shot.
   this.speed = 10;
   this.shotState = this.speed;
-  
+
   // Missle numbers
   this.maxMissles = 10;
   this.missles = 3;
 }
 
 Missle.prototype.fire = function(direction, currPoint) {
-  
+
   if (this.shotState < this.speed) {
     this.shotState += 1;
   } else {
@@ -157,7 +157,7 @@ Missle.prototype.fire = function(direction, currPoint) {
       var missle = new Rocket(shotLoc, "good", direction);
       playSound('data/sound/missile');
       drawObjects.push(missle);
-      
+
       this.shotState = 1;
     }
   }
@@ -193,10 +193,10 @@ Laser.prototype.fire = function(direction, currPoint) {
   } else {
     var shot = new Shot(new Point(currPoint.X, currPoint.Y + 4), gameImages['plasmaRed'], 'good', direction, 1);
     drawObjects.push(shot);
-    
+
     // Shot was just created, make fire sound.
     playSound("data/sound/plasma");
-    
+
     this.heat += 10;
   }
 }
@@ -210,7 +210,7 @@ Laser.prototype.nofire = function() {
 Laser.prototype.drawStatus = function(ctx) {
   ctx.fillStyle = 'white';
   ctx.fillText('Heat', cameraX + 400, cameraY + 560);
-  
+
   if (this.heat > 1000) {
     ctx.fillStyle = 'red';
   } else {
@@ -225,7 +225,7 @@ function ChargeCannon() {
   // Amount that has been charged.
   this.charged = 0;
   this.maxCharge = 100;
-  
+
   // remember last fire values.
   this.direction = 'left';
   this.currPoint;
@@ -235,7 +235,7 @@ ChargeCannon.prototype.fire = function(direction, currPoint) {
   if (this.charged < this.maxCharge) {
     this.charged += 1;
   }
-  
+
   // Store for usage by the nofire function.
   this.direction = direction;
   this.currPoint = currPoint;
@@ -258,7 +258,7 @@ ChargeCannon.prototype.nofire = function() {
 ChargeCannon.prototype.drawStatus = function(ctx) {
   ctx.fillStyle = 'white';
   ctx.fillText('Charge', cameraX + 400, cameraY + 560);
-  
+
   if (this.charged > 66) {
     ctx.fillStyle = 'red';
   } else {
@@ -284,10 +284,10 @@ NoWeapon.prototype.nofire = function() {
 
 // Normal shot for bad guys.
 function NormalBadShot() {
-  
+
   // Number of shots in blast
   this.numShots = 1;
-  
+
   // Powerups
   this.speed = 1; // real speed = 9 - speed.
   this.shots = 1; // Number of shots at a time.
@@ -295,7 +295,7 @@ function NormalBadShot() {
 
   // Tracks number of frames since last shot.
   this.shotState = this.speed;
-  
+
   // Spread or not
   this.spread = false;
 }
