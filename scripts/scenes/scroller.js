@@ -1,6 +1,8 @@
 'use strict';
 
-function drawScroller(element) {
+function Scroller(element) {
+
+    var me = this;
 
     var state = window.game_state;
     state.reset();
@@ -10,12 +12,9 @@ function drawScroller(element) {
     var currY = 620;
     var wait = 100;
 
-    // main loop
-    var mainLoop = setInterval(function() {
-        draw();
-    }, 40);
+    this.main_loop_interval = null;
 
-    function draw() {
+    this.draw = function () {
         // clear canvas
         state.ctx.clearRect(state.cameraX, state.cameraY, $('#game').width(), $('#game').height());
 
@@ -56,7 +55,7 @@ function drawScroller(element) {
         }
 
         function exit_scroller() {
-            clearInterval(mainLoop);
+            clearInterval(me.main_loop_interval);
 
             // Decide what function gets execution.
             if (inSystem == false) {
@@ -65,5 +64,12 @@ function drawScroller(element) {
                 // TODO: go to next scene in system
             }
         }
+    }
+
+    this.main_loop = function () {
+        me.draw();
+        me.main_loop_interval = setInterval(function() {
+            me.draw();
+        }, 40);
     }
 }

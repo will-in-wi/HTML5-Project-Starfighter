@@ -202,8 +202,10 @@ $(document).ready(function() {
             img.src = '';
             img.src = 'data/gfx/' + imgName;
         } else {
+            var currScene = new MainMenu();
+            currScene.main_loop();
             // game();
-            main_menu();
+            // main_menu();
         }
     }
 });

@@ -1,9 +1,13 @@
 'use strict';
 
-function main_menu() {
+function MainMenu() {
+
+    var me = this;
 
     var state = window.game_state;
     state.reset();
+
+    this.main_loop_interval = null;
 
     // Insert 16 bad guys
     for (var i=0;i<=5;i=i+1) {
@@ -49,12 +53,27 @@ function main_menu() {
         starfield.push([Math.random()*800, Math.random()*600]);
     }
 
-    // main loop
-    var menu_loop = setInterval(function() {
-        draw();
-    }, 40);
+    function main_menu_menu() {
+        // Draw Menu
+        $('#main-menu').html('<ul><li><a href="#" id="start-game">START NEW GAME</a></li><li><a href="#" id="load-game">LOAD GAME</a></li><li><a href="#" id="continue-game">CONTINUE CURRENT GAME</a></li><li><a href="#" id="options">OPTIONS</a></li></ul><audio autoplay loop><source src="data/music/Platinum.ogg" type="audio/ogg" /><source src="data/music/Platinum.mp3" type="audio/mpeg" /></audio>');
 
-    function draw() {
+        $("#start-game").click(function() {
+            clearInterval(me.main_loop_interval);
+            $("#main-menu").remove();
+            //start_game();
+            loadStory('story');
+        });
+
+        $("#options").click(function() {
+            options();
+        });
+    }
+
+    this.options = function () {
+        // TODO
+    }
+
+    this.draw = function () {
         // clear canvas
         state.ctx.clearRect(0,0,$('#game').width(),$('#game').height());
 
@@ -81,23 +100,9 @@ function main_menu() {
         });
     }
 
-    function main_menu_menu() {
-        // Draw Menu
-        $('#main-menu').html('<ul><li><a href="#" id="start-game">START NEW GAME</a></li><li><a href="#" id="load-game">LOAD GAME</a></li><li><a href="#" id="continue-game">CONTINUE CURRENT GAME</a></li><li><a href="#" id="options">OPTIONS</a></li></ul><audio autoplay loop><source src="data/music/Platinum.ogg" type="audio/ogg" /><source src="data/music/Platinum.mp3" type="audio/mpeg" /></audio>');
-
-        $("#start-game").click(function() {
-            clearInterval(menu_loop);
-            $("#main-menu").remove();
-            //start_game();
-            loadStory('story');
-        });
-
-        $("#options").click(function() {
-            options();
-        });
-    }
-
-    function options() {
-
+    this.main_loop = function() {
+        me.main_loop_interval = setInterval(function() {
+            me.draw();
+        }, 40);
     }
 }

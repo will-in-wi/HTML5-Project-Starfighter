@@ -1,6 +1,8 @@
 'use strict';
 
-function cutScene(element) {
+function CutScene(element) {
+
+    var me = this;
 
     var state = window.game_state;
 
@@ -36,16 +38,14 @@ function cutScene(element) {
     var sceneSpeed = element.scene.speed;
 
     // main loop
-    var mainLoop = setInterval(function() {
-        draw();
-    }, 40);
+    this.main_loop_interval = null;
 
     // Draw state tracking
     var currState = 'pause'; // Can be pause or talk
     var count = 0;
     var currText = 0;
 
-    function draw() {
+    this.draw = function () {
         // clear canvas
         state.ctx.clearRect(0, 0, $('#game').width(), $('#game').height());
 
@@ -97,7 +97,7 @@ function cutScene(element) {
         }
 
         function endCutScene() {
-            clearInterval(mainLoop);
+            clearInterval(me.main_loop_interval);
 
             // Decide what function gets execution.
             if (inSystem == false) {
@@ -126,5 +126,11 @@ function cutScene(element) {
 
         // Advance clock
         currTime += 1;
+    }
+
+    this.main_loop = function () {
+        me.main_loop_interval = setInterval(function() {
+            me.draw();
+        }, 40);
     }
 }

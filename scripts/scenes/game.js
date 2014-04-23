@@ -33,10 +33,13 @@ function start_mission(element) {
         state.drawObjects.push(badguy);
     };
 
-    game();
+    var game = new Game();
+    game.main_loop();
 }
 
-function game() {
+function Game() {
+
+    var me = this;
 
     var state = window.game_state;
 
@@ -54,11 +57,6 @@ function game() {
     var powerup = new PowerUp('rate', new Point(400,400), 10);
     state.drawObjects.push(powerup);
 
-    // main loop
-    setInterval(function() {
-        draw();
-    }, 40);
-
     function collision(obj1, obj2) {
         if (!(obj1.currPoint.X + obj1.width < obj2.currPoint.X ||
                 obj2.currPoint.X + obj2.width < obj1.currPoint.X ||
@@ -72,7 +70,7 @@ function game() {
         }
     }
 
-    function draw() {
+    this.draw = function () {
         // clear canvas
         state.ctx.clearRect(state.cameraX, state.cameraY, $('#game').width(), $('#game').height());
 
@@ -135,8 +133,12 @@ function game() {
         });
     }
 
-    // Initial draw
-    draw();
+    this.main_loop = function () {
+        me.draw();
+        setInterval(function() {
+            me.draw();
+        }, 40);
+    }
 }
 
 // Handle XML mission file.
@@ -155,17 +157,21 @@ function loadStory(storyName) {
 // Advance to next top-level part of the game.
 function handle_next() {
     var next = game_play.shift();
+    var scene = null;
     switch (next.type) {
         case 'scroller':
-            scroller(next);
+            scene = new Scroller(next);
+            scene.main_loop();
             break;
         case 'cutscene':
-            cutScene(next);
+            scene = new CutScene(next);
+            scene.main_loop();
             break;
         case 'mission':
             start_mission(next);
             break;
         default:
             console.log('Invalid story element: ' + next.type);
+            return;
     }
 }
