@@ -1,8 +1,5 @@
 'use strict';
 
-// Objectives
-
-
 // Done when all enemies have been killed.
 function allKilled(objects) {
     var allGone = true;
