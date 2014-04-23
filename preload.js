@@ -1,6 +1,6 @@
 // This is awful. I would love to come up with a cleaner way to do this.
-// Basically, what happens is that each function loads and image, and once
-// that image is loaded, it load the next one. Once the last image is loaded,
+// Basically, what happens is that each function loads an image, and once
+// that image is loaded, it loads the next one. Once the last image is loaded,
 // it starts the main loop.
 $(document).ready(function() {
   // Start preloading with images
