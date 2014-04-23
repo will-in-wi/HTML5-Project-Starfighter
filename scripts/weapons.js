@@ -1,3 +1,5 @@
+'use strict';
+
 // Shot object
 function Shot(startPoint, gfx, side, direction, damage) {
 

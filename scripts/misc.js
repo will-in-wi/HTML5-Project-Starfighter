@@ -1,3 +1,5 @@
+'use strict';
+
 // This function plays a sound file. It assumes that there is a file of type
 // OGG and mp3 in the same location.
 function playSound(res) {

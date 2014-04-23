@@ -1,3 +1,5 @@
+'use strict';
+
 function PowerUp(category, startLoc, val) {
 
     var state = window.game_state;

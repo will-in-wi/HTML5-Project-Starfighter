@@ -1,4 +1,6 @@
-StarfighterState = function() {
+'use strict';
+
+var StarfighterState = function() {
     // Data that retains state throughout playback.
 
     var state = this;

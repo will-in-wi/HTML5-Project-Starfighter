@@ -1,3 +1,5 @@
+'use strict';
+
 // Handles keystrokes
 function Keyboard() {
     // Down arrow = 40
