@@ -69,6 +69,35 @@ var Widgets = {
         }
     },
 
+    shield : function(amount, max) {
+        var state = window.game_state;
+
+        // Draw shield text
+        state.ctx.fillStyle = 'white';
+        state.ctx.textAlign = 'start';
+        state.ctx.font = "10pt Bitstream Vera Sans Mono";
+        state.ctx.fillText('Shield', state.cameraX + 10, state.cameraY + 560);
+
+        // Draw shield bar
+        var percentageShield = amount / max * 100;
+        if (percentageShield <= 33) {
+            state.ctx.fillStyle = 'red';
+            state.ctx.fillRect(state.cameraX + 70, state.cameraY + 548, percentageShield, 15);
+        } else if (percentageShield <= 66) {
+            state.ctx.fillStyle = 'red';
+            state.ctx.fillRect(state.cameraX + 70, state.cameraY + 548, 33, 15);
+            state.ctx.fillStyle = 'orange';
+            state.ctx.fillRect(state.cameraX + 103, state.cameraY + 548, percentageShield - 33, 15);
+        } else {
+            state.ctx.fillStyle = 'red';
+            state.ctx.fillRect(state.cameraX + 70, state.cameraY + 548, 33, 15);
+            state.ctx.fillStyle = 'orange';
+            state.ctx.fillRect(state.cameraX + 103, state.cameraY + 548, 33, 15);
+            state.ctx.fillStyle = 'green';
+            state.ctx.fillRect(state.cameraX + 136, state.cameraY + 548, percentageShield - 66, 15);
+        }
+    },
+
     ship : function(name, direction, loc) {
         var state = window.game_state;
 
