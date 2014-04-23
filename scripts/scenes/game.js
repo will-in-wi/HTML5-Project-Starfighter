@@ -104,7 +104,7 @@ function Game() {
     }
 }
 
-// Handle XML mission file.
+// Handle JSON mission file.
 function loadStory(storyName) {
     // TODO: Get rid of jQuery. We can assume a sane environment.
     $.getJSON(storyName + '.json', function(data) {
