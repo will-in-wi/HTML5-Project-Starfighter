@@ -22,12 +22,29 @@ function Briefing(element) {
         state.ctx.fillStyle = grd;
         state.ctx.fillRect(0,0,800,600);
 
-        // Draw boxes.
-        // var c = new Color(115, 117, 0);
-        var c = new Color(0, 117, 0);
-        Widgets.header_box(loc, c, 'Test', 'Test Body')
-        // state.ctx.strokeStyle = 'white';
-        // state.ctx.strokeRect(loc.X, loc.Y, 600, 75);
+        // Objectives
+        var primaryObjectivesText = [];
+        var secondaryObjectivesText = [];
+        for (var i = 0; i < element.objectives.length; i++) {
+            if (element.objectives[i].importance == 'primary') {
+                primaryObjectivesText.push(element.objectives[i].title);
+            } else {
+                secondaryObjectivesText.push(element.objectives[i].title);
+            }
+        };
+
+        // Primary Objectives
+        var c1 = new Color(0, 117, 0);
+        Widgets.header_box(loc, c1, 'Primary Objectives', primaryObjectivesText);
+
+        // Secondary Objectives
+        if (secondaryObjectivesText.length > 0) {
+            var c2 = new Color(115, 117, 0);
+            Widgets.header_box(loc.move(0, 160), c2, 'Secondary Objectives', secondaryObjectivesText);
+        }
+
+        var c2 = new Color(115, 117, 0);
+        Widgets.header_box(loc.move(0, 320), c2, 'Additional Information', [element.additional_information]);
 
         var textLoc;
 

@@ -182,8 +182,10 @@
     "objectives" : [
       {
         "importance" : "primary",
-        "objective" : "allKilled"
+        "objective" : "allKilled",
+        "title" : "Escape from WEAPCO Pursuit"
       }
-    ]
+    ],
+    "additional_information" : ""
   }
 ]
