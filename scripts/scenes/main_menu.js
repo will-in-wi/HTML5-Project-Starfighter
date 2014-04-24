@@ -63,7 +63,7 @@ function MainMenu() {
         // Draw Menu
         $('#main-menu').html('<ul><li><a href="#" id="start-game">START NEW GAME</a></li><li><a href="#" id="load-game">LOAD GAME</a></li><li><a href="#" id="continue-game">CONTINUE CURRENT GAME</a></li><li><a href="#" id="options">OPTIONS</a></li></ul><audio autoplay loop><source src="data/music/Platinum.ogg" type="audio/ogg" /><source src="data/music/Platinum.mp3" type="audio/mpeg" /></audio>');
 
-        $("#start-game").click(function() {
+        document.getElementById('start-game').onclick = function() {
             Debug.log('Game start event.');
             clearInterval(me.main_loop_interval);
             $("#main-menu").remove();
@@ -72,11 +72,11 @@ function MainMenu() {
             t.loadStory('story').then(function(){
                 t.next_scene();
             });
-        });
+        }
 
-        $("#options").click(function() {
+        document.getElementById('options').onclick = function() {
             options();
-        });
+        }
     }
 
     this.options = function () {
