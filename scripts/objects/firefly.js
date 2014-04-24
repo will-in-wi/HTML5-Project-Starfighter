@@ -23,6 +23,12 @@ function Firefly(startPoint) {
 
     this.physics = new Physics(startPoint.clone());
 
+    this.die = function() {
+        this.reapMe = true;
+        var explodeMe = new Explosion(this.currPoint);
+        state.drawObjects.push(explodeMe);
+    }
+
     this.draw = function() {
         // For camera use later
         var oldX = this.currPoint.X;
@@ -31,11 +37,8 @@ function Firefly(startPoint) {
         var CAMERAEDGE = 75;
 
         if (this.shield <= 0) {
-            // TODO: Die method.
             // I have been shot.
-            this.reapMe = true;
-            var explodeMe = new Explosion(this.currPoint);
-            state.drawObjects.push(explodeMe);
+            this.die();
         }
 
         // Draw shield
