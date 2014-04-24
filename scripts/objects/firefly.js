@@ -3,6 +3,8 @@
 // The firefly fighter
 function Firefly(startPoint) {
 
+    var me = this;
+
     var state = window.game_state;
 
     this.currPoint = startPoint;
@@ -22,6 +24,14 @@ function Firefly(startPoint) {
     this.type = 'good_ship';
 
     this.physics = new Physics(startPoint.clone());
+
+    window.kbd.events.addListener('rightArrow', function(){
+        me.direction = 'right';
+    });
+
+    window.kbd.events.addListener('leftArrow', function(){
+        me.direction = 'left';
+    });
 
     this.die = function() {
         this.reapMe = true;
@@ -46,16 +56,6 @@ function Firefly(startPoint) {
         Widgets.global_shield(this.shield, this.maxShield);
 
         this.currPoint = this.physics.whereTo();
-
-        // Pressed left
-        if (kbd.leftArrow && !kbd.rightArrow) {
-            this.direction = 'left';
-        }
-
-        // Pressed right
-        if (kbd.rightArrow && !kbd.leftArrow) {
-            this.direction = 'right';
-        }
 
         // Draw firefly
         Widgets.ship('firefly', this.direction, this.currPoint);

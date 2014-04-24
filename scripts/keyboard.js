@@ -24,28 +24,40 @@ window.kbd = new Keyboard();
 $(document).keydown(function(event) {
     switch(event.which) {
         case 40: // Down arrow
+            if (kbd.downArrow == false) {
+                kbd.events.trigger('downArrow');
+            }
             kbd.downArrow = true;
-            kbd.events.trigger('downArrow');
             break;
         case 39: // Right arrow
+            if (kbd.rightArrow == false) {
+                kbd.events.trigger('rightArrow');
+            }
             kbd.rightArrow = true;
-            kbd.events.trigger('rightArrow');
             break;
         case 38: // Up arrow
+            if (kbd.upArrow == false) {
+                kbd.events.trigger('upArrow');
+            }
             kbd.upArrow = true;
-            kbd.events.trigger('upArrow');
             break;
         case 37: // Left arrow
+            if (kbd.leftArrow == false) {
+                kbd.events.trigger('leftArrow');
+            }
             kbd.leftArrow = true;
-            kbd.events.trigger('leftArrow');
             break;
         case 70: // Ctrl - Fire
+            if (kbd.ctrl == false) {
+                kbd.events.trigger('ctrl');
+            }
             kbd.ctrl = true;
-            kbd.events.trigger('ctrl');
             break;
         case 68: // Shift - Secondary weapon
+            if (kbd.shift == false) {
+                kbd.events.trigger('shift');
+            }
             kbd.shift = true;
-            kbd.events.trigger('shift');
             break;
     }
     //alert("key pressed: " + event.which);
@@ -55,27 +67,21 @@ $(document).keyup(function(event) {
     switch(event.which) {
         case 40: // Down arrow
             kbd.downArrow = false;
-            kbd.events.trigger('downArrow');
             break;
         case 39: // Right arrow
             kbd.rightArrow = false;
-            kbd.events.trigger('rightArrow');
             break;
         case 38: // Up arrow
             kbd.upArrow = false;
-            kbd.events.trigger('upArrow');
             break;
         case 37: // Left arrow
             kbd.leftArrow = false;
-            kbd.events.trigger('leftArrow');
             break;
         case 70: // Ctrl - Fire
             kbd.ctrl = false;
-            kbd.events.trigger('ctrl');
             break;
         case 68: // Shift - Secondary weapon
             kbd.shift = false;
-            kbd.events.trigger('shift');
             break;
     }
 });

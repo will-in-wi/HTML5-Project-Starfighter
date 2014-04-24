@@ -46,6 +46,7 @@ function Events() {
         if (typeof (name) !== 'string' || typeof (handler) !== 'function') {
             Debug.log("Invalid parameters when creating listener with the following arguments: 'Name': " + name + ", 'Handler': " + handler, Debug.type.error);
         }
+        Debug.log('Registered listener for ' + name);
         this.handlers.push({ "eventName" : name, "eventHandler" : handler });
     },
     /**
