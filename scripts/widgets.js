@@ -98,6 +98,21 @@ var Widgets = {
         }
     },
 
+    enemy_shield : function(amount, max, width, loc) {
+        var state = window.game_state;
+
+        var percentageShield = amount / max * 100;
+        if (percentageShield > 66) {
+            state.ctx.fillStyle = 'green';
+        } else if (percentageShield > 33) {
+            state.ctx.fillStyle = 'orange';
+        } else {
+            state.ctx.fillStyle = 'red';
+        }
+        var fillWidth = width * (percentageShield / 100);
+        state.ctx.fillRect(loc.X + 1, loc.Y - 10, fillWidth, 5);
+    },
+
     ship : function(name, direction, loc) {
         var state = window.game_state;
 

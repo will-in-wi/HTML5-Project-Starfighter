@@ -90,16 +90,7 @@ function EnemyShip(ai, ship, shield, primaryWeapon) {
 
             // Draw shield above ship
             if (!this.noShield) {
-                var percentageShield = this.shield / this.maxShield * 100;
-                if (percentageShield > 66) {
-                    state.ctx.fillStyle = 'green';
-                } else if (percentageShield > 33) {
-                    state.ctx.fillStyle = 'orange';
-                } else {
-                    state.ctx.fillStyle = 'red';
-                }
-                var fillWidth = (gameImages[this.ship + "1"].width) * (percentageShield / 100);
-                state.ctx.fillRect(this.currPoint.X + 1, this.currPoint.Y - 10, fillWidth, 5);
+                Widgets.enemy_shield(this.shield, this.maxShield, gameImages[this.ship + "1"].width, this.currPoint);
             }
 
             // draw smoke
