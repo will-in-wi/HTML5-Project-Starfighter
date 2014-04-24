@@ -9,7 +9,7 @@ document.onreadystatechange = function() { if (document.readyState === 'complete
     window.gameImages = {};
     var preload = new PreloadImages('data/gfx/', 'preload.json');
 
-    preload.preload().done(function(images){
+    preload.preload().then(function(images){
         window.gameImages = images;
 
         Debug.log('Starting menu.');
