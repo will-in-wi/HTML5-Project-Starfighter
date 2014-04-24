@@ -3,10 +3,10 @@
 // Done when all enemies have been killed.
 function allKilled(objects) {
     var allGone = true;
-    $(objects).each(function(i, obj) {
-        if (obj.type == 'bad_ship') {
+    for (var i = 0; i < objects.length; i++) {
+        if (objects[i].type == 'bad_ship') {
             allGone = false;
         }
-    });
+    };
     return allGone;
 }
