@@ -21,7 +21,8 @@ function Keyboard() {
 
 // TODO: Don't initialize code anywhere other than main.js.
 window.kbd = new Keyboard();
-$(document).keydown(function(event) {
+
+document.onkeydown = function(event) {
     switch(event.which) {
         case 40: // Down arrow
             if (kbd.downArrow == false) {
@@ -61,9 +62,9 @@ $(document).keydown(function(event) {
             break;
     }
     //alert("key pressed: " + event.which);
-});
+}
 
-$(document).keyup(function(event) {
+document.onkeyup = function(event) {
     switch(event.which) {
         case 40: // Down arrow
             kbd.downArrow = false;
@@ -84,4 +85,4 @@ $(document).keyup(function(event) {
             kbd.shift = false;
             break;
     }
-});
+}
