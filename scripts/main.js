@@ -1,7 +1,7 @@
 'use strict';
 
 $(document).ready(function() {
-    // Start preloading with images
+    // Preloading images
     window.gameImages = {};
 
     var preload = new PreloadImages('data/gfx/', 'preload.json');
