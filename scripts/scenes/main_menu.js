@@ -45,6 +45,8 @@ function MainMenu() {
         state.drawObjects.push(badguy);
     }
 
+    var dom_game = document.getElementById('game');
+
     // Draw Menu
     $('#game').after('<div id="main-menu"></div>');
     main_menu_menu();
@@ -83,7 +85,7 @@ function MainMenu() {
 
     this.draw = function () {
         // clear canvas
-        state.ctx.clearRect(0,0,$('#game').width(),$('#game').height());
+        state.ctx.clearRect(0, 0, dom_game.offsetWidth, dom_game.offsetHeight);
 
         // create background
         state.ctx.drawImage(gameImages["spirit"], 0, 0);
