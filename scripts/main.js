@@ -1,7 +1,6 @@
 'use strict';
 
-$(document).ready(function() {
-
+document.onreadystatechange = function() { if (document.readyState === 'complete') {
     Debug.log('Document Ready.');
 
     window.game_state = new StarfighterState();
@@ -17,5 +16,4 @@ $(document).ready(function() {
         var currScene = new MainMenu();
         currScene.main_loop();
     });
-
-});
+}};
