@@ -27,7 +27,7 @@ function PreloadImages(img_dir, preload_source) {
                     promises.push(me.load_object(data[i]));
                 }
 
-                $.when.apply($, promises).done(function(){
+                Promise.all(promises).then(function(){
                     Debug.log('Image preload finished.');
                     masterDeferred.resolve(images);
                 });
@@ -40,14 +40,17 @@ function PreloadImages(img_dir, preload_source) {
     }
 
     this.load_object = function(image) {
-        var deferred = new jQuery.Deferred();
         var img = new Image();
-        $(img).load(function() {
-            images[image.substr(0, image.length - 4)] = img;
-            deferred.resolve();
+        var promise = new Promise(function(resolve, reject) {
+            img.onload = function() {
+                images[image.substr(0, image.length - 4)] = img;
+                resolve();
+            }
         });
+
         img.src = '';
         img.src = this.img_dir + image;
-        return deferred;
+
+        return promise;
     }
 }
