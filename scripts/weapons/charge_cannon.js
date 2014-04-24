@@ -39,13 +39,13 @@ function ChargeCannon() {
 
     this.drawStatus = function() {
         state.ctx.fillStyle = 'white';
-        state.ctx.fillText('Charge', state.cameraX + 400, state.cameraY + 560);
+        state.ctx.fillText('Charge', state.camera.X + 400, state.camera.Y + 560);
 
         if (this.charged > 66) {
             state.ctx.fillStyle = 'red';
         } else {
             state.ctx.fillStyle = 'green';
         }
-        state.ctx.fillRect(state.cameraX + 455, state.cameraY + 548, this.charged, 15);
+        state.ctx.fillRect(state.camera.X + 455, state.camera.Y + 548, this.charged, 15);
     }
 }

@@ -33,13 +33,13 @@ function Laser() {
 
     this.drawStatus = function() {
         state.ctx.fillStyle = 'white';
-        state.ctx.fillText('Heat', cameraX + 400, cameraY + 560);
+        state.ctx.fillText('Heat', camera.X + 400, camera.Y + 560);
 
         if (this.heat > 1000) {
             state.ctx.fillStyle = 'red';
         } else {
             state.ctx.fillStyle = 'green';
         }
-        state.ctx.fillRect(cameraX + 445, cameraY + 548, this.heat / 10, 15);
+        state.ctx.fillRect(camera.X + 445, camera.Y + 548, this.heat / 10, 15);
     }
 }

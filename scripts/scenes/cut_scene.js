@@ -51,24 +51,24 @@ function CutScene(element) {
         // clear canvas
         state.ctx.clearRect(0, 0, $('#game').width(), $('#game').height());
 
-        state.cameraX += sceneSpeed;
+        state.camera.X += sceneSpeed;
         state.ctx.translate(-sceneSpeed, 0);
 
         // create background
-        state.ctx.drawImage(gameImages["spirit"], state.cameraX, state.cameraY);
+        state.ctx.drawImage(gameImages["spirit"], state.camera.X, state.camera.Y);
 
         // Draw starfield
         state.ctx.fillStyle = "gray";
         for (var i=starfield.length-1; i>=0; --i) {
             var star = starfield[i];
-            if (star[0] < state.cameraX) {
+            if (star[0] < state.camera.X) {
                 star[0] += 800;
-            } else if (star[0] > state.cameraX + 800) {
+            } else if (star[0] > state.camera.X + 800) {
                 star[0] -= 800;
             }
-            if (star[1] < state.cameraY) {
+            if (star[1] < state.camera.Y) {
                 star[1] += 600;
-            } else if (star[1] > state.cameraY + 600) {
+            } else if (star[1] > state.camera.Y + 600) {
                 star[1] -= 600;
             }
             state.ctx.fillRect(star[0], star[1], 1, 1);
@@ -88,7 +88,7 @@ function CutScene(element) {
                     // Done
                     endCutScene();
                 } else {
-                    talkBox(text[currText].person, text[currText].text, new Point(100 + state.cameraX, 450), state.ctx);
+                    talkBox(text[currText].person, text[currText].text, new Point(100 + state.camera.X, 450), state.ctx);
                     count += 1;
                 }
             } else {

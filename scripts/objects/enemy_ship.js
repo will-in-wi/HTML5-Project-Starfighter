@@ -8,7 +8,7 @@ function EnemyShip(ai, ship, shield, primaryWeapon) {
 
     var state = window.game_state;
 
-    var loc = ai.whereTo(new Point(ai.X, ai.Y));
+    var loc = ai.whereTo();
     this.AI = ai
     this.currPoint = loc;
     this.ship = ship;
@@ -55,24 +55,24 @@ function EnemyShip(ai, ship, shield, primaryWeapon) {
             this.currPoint = newPoint;
 
             // Add arrow if object is off screen.
-            if (this.currPoint.X < state.cameraX || this.currPoint.X > state.cameraX + 800 || this.currPoint.Y < state.cameraY || this.currPoint.Y > state.cameraY + 600) {
+            if (this.currPoint.X < state.camera.X || this.currPoint.X > state.camera.X + 800 || this.currPoint.Y < state.camera.Y || this.currPoint.Y > state.camera.Y + 600) {
                 // Show arrow on edge of screen
-                if (this.currPoint.X < state.cameraX && this.currPoint.Y < state.cameraY) { // upper left corner
-                    state.ctx.drawImage(gameImages["arrowNorthWest"], state.cameraX + 2, state.cameraY + 2);
-                } else if (this.currPoint.X < state.cameraX && this.currPoint.Y > state.cameraY + 600) { // lower left corner
-                    state.ctx.drawImage(gameImages["arrowSouthWest"], state.cameraX + 2, state.cameraY + 585);
-                } else if (this.currPoint.X > state.cameraX + 800 && this.currPoint.Y < state.cameraY) { // upper right corner
-                    state.ctx.drawImage(gameImages["arrowNorthEast"], state.cameraX + 785, state.cameraY + 2);
-                } else if (this.currPoint.X > state.cameraX + 800 && this.currPoint.Y > state.cameraY + 600) { // lower right corner
-                    state.ctx.drawImage(gameImages["arrowSouthEast"], state.cameraX + 785, state.cameraY + 585);
-                } else if (this.currPoint.X < state.cameraX) { // Left side
-                    state.ctx.drawImage(gameImages["arrowWest"], state.cameraX + 2, this.currPoint.Y);
-                } else if (this.currPoint.X > state.cameraX + 800) { // Right Side
-                    state.ctx.drawImage(gameImages["arrowEast"], state.cameraX + 785, this.currPoint.Y);
-                } else if (this.currPoint.Y < state.cameraY) { // Top side
-                    state.ctx.drawImage(gameImages["arrowNorth"], this.currPoint.X, state.cameraY + 2);
-                } else if (this.currPoint.Y > state.cameraY + 600) { // Bottom side
-                    state.ctx.drawImage(gameImages["arrowSouth"], this.currPoint.X, state.cameraY + 585);
+                if (this.currPoint.X < state.camera.X && this.currPoint.Y < state.camera.Y) { // upper left corner
+                    state.ctx.drawImage(gameImages["arrowNorthWest"], state.camera.X + 2, state.camera.Y + 2);
+                } else if (this.currPoint.X < state.camera.X && this.currPoint.Y > state.camera.Y + 600) { // lower left corner
+                    state.ctx.drawImage(gameImages["arrowSouthWest"], state.camera.X + 2, state.camera.Y + 585);
+                } else if (this.currPoint.X > state.camera.X + 800 && this.currPoint.Y < state.camera.Y) { // upper right corner
+                    state.ctx.drawImage(gameImages["arrowNorthEast"], state.camera.X + 785, state.camera.Y + 2);
+                } else if (this.currPoint.X > state.camera.X + 800 && this.currPoint.Y > state.camera.Y + 600) { // lower right corner
+                    state.ctx.drawImage(gameImages["arrowSouthEast"], state.camera.X + 785, state.camera.Y + 585);
+                } else if (this.currPoint.X < state.camera.X) { // Left side
+                    state.ctx.drawImage(gameImages["arrowWest"], state.camera.X + 2, this.currPoint.Y);
+                } else if (this.currPoint.X > state.camera.X + 800) { // Right Side
+                    state.ctx.drawImage(gameImages["arrowEast"], state.camera.X + 785, this.currPoint.Y);
+                } else if (this.currPoint.Y < state.camera.Y) { // Top side
+                    state.ctx.drawImage(gameImages["arrowNorth"], this.currPoint.X, state.camera.Y + 2);
+                } else if (this.currPoint.Y > state.camera.Y + 600) { // Bottom side
+                    state.ctx.drawImage(gameImages["arrowSouth"], this.currPoint.X, state.camera.Y + 585);
                 }
             } else {
                 // Draw ship

@@ -18,10 +18,10 @@ function Scroller(element) {
 
     this.draw = function () {
         // clear canvas
-        state.ctx.clearRect(state.cameraX, state.cameraY, $('#game').width(), $('#game').height());
+        state.ctx.clearRect(state.camera.X, state.camera.Y, $('#game').width(), $('#game').height());
 
         // create background
-        state.ctx.drawImage(gameImages[element.background], state.cameraX, state.cameraY);
+        state.ctx.drawImage(gameImages[element.background], state.camera.X, state.camera.Y);
 
         // Draw text
         state.ctx.font = "bolder 12pt 'Bitstream Vera Sans Mono'";

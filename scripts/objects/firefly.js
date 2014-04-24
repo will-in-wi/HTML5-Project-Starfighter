@@ -9,12 +9,6 @@ function Firefly(startPoint) {
     this.width = gameImages['firefly1'].width;
     this.height = gameImages['firefly1'].height;
 
-    this.Xspeed = 0;
-    this.Yspeed = 0;
-
-    this.maxSpeedX = 14;
-    this.maxSpeedY = 14;
-
     this.primaryWeapon = new NormalGoodShot();
     this.secondaryWeapon = new ChargeCannon();
 
@@ -27,13 +21,13 @@ function Firefly(startPoint) {
     this.reapMe = false;
     this.type = 'good_ship';
 
+    this.physics = new Physics(startPoint.clone());
+
     this.draw = function() {
         // For camera use later
         var oldX = this.currPoint.X;
         var oldY = this.currPoint.Y;
 
-        var MAXSPEED = 14;
-        var MINSPEED = 8;
         var CAMERAEDGE = 75;
 
         if (this.shield <= 0) {
@@ -47,108 +41,16 @@ function Firefly(startPoint) {
         // Draw shield
         Widgets.shield(this.shield, this.maxShield);
 
-        // Handle keyboard ********************
-        // Pressed down
-        if (kbd.downArrow && !kbd.upArrow) {
-            // Track camera edge
-            if (state.cameraY + 600 - this.currPoint.Y < CAMERAEDGE) {
-                this.maxSpeedY = MINSPEED;
-            } else {
-                this.maxSpeedY = MAXSPEED;
-            }
+        var newPoint = this.physics.whereTo();
 
-            // Move ship
-            if (this.Yspeed < this.maxSpeedY) {
-                this.Yspeed = this.Yspeed + 4;
-                if (this.Yspeed > this.maxSpeedY) {
-                    this.Yspeed = this.maxSpeedY;
-                }
-            } else {
-                this.Yspeed = this.maxSpeedY;
-            }
-            this.currPoint.Y = this.currPoint.Y + this.Yspeed;
-        }
-
-        // Pressed Up
-        if (kbd.upArrow && !kbd.downArrow) {
-            // Track camera edge
-            if (this.currPoint.Y - state.cameraY < CAMERAEDGE) {
-                this.maxSpeedY = MINSPEED;
-            } else {
-                this.maxSpeedY = MAXSPEED;
-            }
-
-            // Move Firefly
-            if (this.Yspeed > -this.maxSpeedY) {
-                this.Yspeed = this.Yspeed - 3;
-                if (this.Yspeed < -this.maxSpeedY) {
-                    this.Yspeed = -this.maxSpeedY;
-                }
-            } else {
-                this.Yspeed = -this.maxSpeedY;
-            }
-            this.currPoint.Y = this.currPoint.Y + this.Yspeed;
-        }
-
-        // Pressed left
-        if (kbd.leftArrow && !kbd.rightArrow) {
-            // Track camera edge
-            if (this.currPoint.X - state.cameraX < CAMERAEDGE) {
-                this.maxSpeedX = MINSPEED;
-            } else {
-                this.maxSpeedX = MAXSPEED;
-            }
-
-            // Set image direction
-            this.direction = 'left';
-
-            // Move Firefly
-            if (this.Xspeed > -this.maxSpeedX) {
-                this.Xspeed = this.Xspeed - 3;
-                if (this.Xspeed < -this.maxSpeedX) {
-                    this.Xspeed = -this.maxSpeedX;
-                }
-            } else {
-                this.Xspeed = -this.maxSpeedX;
-            }
-            this.currPoint.X = this.currPoint.X + this.Xspeed;
-        }
-
-        // Pressed right
-        if (kbd.rightArrow && !kbd.leftArrow) {
-            // Track camera edge
-            if (state.cameraX + 800 - this.currPoint.X < CAMERAEDGE) {
-                this.maxSpeedX = MINSPEED;
-            } else {
-                this.maxSpeedX = MAXSPEED;
-            }
-
-            // Set image direction
+        // determine left vs. right from change in X.
+        if (newPoint.X > this.currPoint.X) {
             this.direction = 'right';
-
-            // Move Firefly
-            if (this.Xspeed < this.maxSpeedX) {
-                this.Xspeed = this.Xspeed + 4;
-                if (this.Xspeed > this.maxSpeedX) {
-                    this.Xspeed = this.maxSpeedX;
-                }
-            } else {
-                this.Xspeed = this.maxSpeedX;
-            }
-            this.currPoint.X = this.currPoint.X + this.Xspeed;
+        } else if (newPoint.X < this.currPoint.X) {
+            this.direction = 'left';
         }
 
-        // Neither left nor right pressed, or both. Slow firefly.
-        if ((!kbd.rightArrow && !kbd.leftArrow) || (kbd.rightArrow && kbd.leftArrow)) {
-            this.Xspeed = this.Xspeed * 0.97;
-            this.currPoint.X = this.currPoint.X + this.Xspeed;
-        }
-
-        // Neither up nor down pressed, or both. Slow firefly.
-        if ((!kbd.upArrow && !kbd.downArrow) || (kbd.upArrow && kbd.downArrow)) {
-            this.Yspeed = this.Yspeed * 0.97;
-            this.currPoint.Y = this.currPoint.Y + this.Yspeed;
-        }
+        this.currPoint = newPoint;
 
         // Draw firefly
         Widgets.ship('firefly', this.direction, this.currPoint);
@@ -179,17 +81,17 @@ function Firefly(startPoint) {
         // Draw weapon state.
 
         // Draw plasma damage indicator boxes
-        Widgets.indicator('Power', new Point(state.cameraX + 10, state.cameraY + 574), new Color(0, 255, 0), this.primaryWeapon.possibleDamage, this.primaryWeapon.damage);
+        Widgets.indicator('Power', state.camera.move(10, 574), new Color(0, 255, 0), this.primaryWeapon.possibleDamage, this.primaryWeapon.damage);
 
         // Draw plasma output indicator boxes
-        Widgets.indicator('Output', new Point(state.cameraX + 270, state.cameraY + 574), new Color(255, 255, 0), this.primaryWeapon.possibleShots, this.primaryWeapon.shots);
+        Widgets.indicator('Output', state.camera.move(270, 574), new Color(255, 255, 0), this.primaryWeapon.possibleShots, this.primaryWeapon.shots);
 
         // Draw plasma cooler indicator boxes
-        Widgets.indicator('Cooler', new Point(state.cameraX + 540, state.cameraY + 574), new Color(64, 64, 255), this.primaryWeapon.possibleSpeed, this.primaryWeapon.speed);
+        Widgets.indicator('Cooler', state.camera.move(540, 574), new Color(64, 64, 255), this.primaryWeapon.possibleSpeed, this.primaryWeapon.speed);
 
         // Draw number of plasma shots
         state.ctx.fillStyle = 'white';
-        state.ctx.fillText('Plasma: ' + this.primaryWeapon.plasmaShots, state.cameraX + 270, state.cameraY + 560);
+        state.ctx.fillText('Plasma: ' + this.primaryWeapon.plasmaShots, state.camera.X + 270, state.camera.Y + 560);
 
         // Draw secondary weapon status
         this.secondaryWeapon.drawStatus();
@@ -199,6 +101,9 @@ function Firefly(startPoint) {
         // max speed within the edge is 15 px/frame. Outside is 10 px/frame.
         var changeX = oldX - this.currPoint.X;
         var changeY = oldY - this.currPoint.Y;
+
+        var MAXSPEED = 14;
+        var MINSPEED = 8;
 
         if (changeX > MINSPEED) {
             changeX = MINSPEED;
@@ -211,8 +116,8 @@ function Firefly(startPoint) {
             changeY = -MINSPEED;
         }
 
-        state.cameraX -= changeX;
-        state.cameraY -= changeY;
+        state.camera.X -= changeX;
+        state.camera.Y -= changeY;
         state.ctx.translate(changeX, changeY);
     }
 

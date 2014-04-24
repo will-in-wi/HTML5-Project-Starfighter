@@ -42,6 +42,6 @@ function Missle() {
 
     this.drawStatus = function() {
         state.ctx.fillStyle = 'white';
-        state.ctx.fillText('Rockets: ' + this.missles, state.cameraX + 400, state.cameraY + 560);
+        state.ctx.fillText('Rockets: ' + this.missles, state.camera.X + 400, state.camera.Y + 560);
     }
 }

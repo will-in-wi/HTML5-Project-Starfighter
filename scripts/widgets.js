@@ -76,25 +76,25 @@ var Widgets = {
         state.ctx.fillStyle = 'white';
         state.ctx.textAlign = 'start';
         state.ctx.font = "10pt Bitstream Vera Sans Mono";
-        state.ctx.fillText('Shield', state.cameraX + 10, state.cameraY + 560);
+        state.ctx.fillText('Shield', state.camera.X + 10, state.camera.Y + 560);
 
         // Draw shield bar
         var percentageShield = amount / max * 100;
         if (percentageShield <= 33) {
             state.ctx.fillStyle = 'red';
-            state.ctx.fillRect(state.cameraX + 70, state.cameraY + 548, percentageShield, 15);
+            state.ctx.fillRect(state.camera.X + 70, state.camera.Y + 548, percentageShield, 15);
         } else if (percentageShield <= 66) {
             state.ctx.fillStyle = 'red';
-            state.ctx.fillRect(state.cameraX + 70, state.cameraY + 548, 33, 15);
+            state.ctx.fillRect(state.camera.X + 70, state.camera.Y + 548, 33, 15);
             state.ctx.fillStyle = 'orange';
-            state.ctx.fillRect(state.cameraX + 103, state.cameraY + 548, percentageShield - 33, 15);
+            state.ctx.fillRect(state.camera.X + 103, state.camera.Y + 548, percentageShield - 33, 15);
         } else {
             state.ctx.fillStyle = 'red';
-            state.ctx.fillRect(state.cameraX + 70, state.cameraY + 548, 33, 15);
+            state.ctx.fillRect(state.camera.X + 70, state.camera.Y + 548, 33, 15);
             state.ctx.fillStyle = 'orange';
-            state.ctx.fillRect(state.cameraX + 103, state.cameraY + 548, 33, 15);
+            state.ctx.fillRect(state.camera.X + 103, state.camera.Y + 548, 33, 15);
             state.ctx.fillStyle = 'green';
-            state.ctx.fillRect(state.cameraX + 136, state.cameraY + 548, percentageShield - 66, 15);
+            state.ctx.fillRect(state.camera.X + 136, state.camera.Y + 548, percentageShield - 66, 15);
         }
     },
 

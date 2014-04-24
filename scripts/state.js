@@ -10,8 +10,7 @@ var StarfighterState = function() {
     state.ctx = canvas.getContext('2d');
 
     state.reset = function() {
-        state.cameraX = 0;
-        state.cameraY = 0;
+        state.camera = new Point(0, 0);
 
         state.starfieldBack = [];
         state.starfieldMiddle = [];

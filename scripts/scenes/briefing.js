@@ -20,7 +20,7 @@ function Briefing(element) {
 
     this.draw = function () {
 
-        var loc = new Point(150 + state.cameraX, 70);
+        var loc = new Point(150 + state.camera.X, 70);
 
         // Draw green background.
         Widgets.backgrounds.green_gradient();

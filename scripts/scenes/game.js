@@ -35,23 +35,23 @@ function Game() {
 
     this.draw = function () {
         // clear canvas
-        state.ctx.clearRect(state.cameraX, state.cameraY, $('#game').width(), $('#game').height());
+        state.ctx.clearRect(state.camera.X, state.camera.Y, $('#game').width(), $('#game').height());
 
         // create background
-        state.ctx.drawImage(gameImages["spirit"], state.cameraX, state.cameraY);
+        state.ctx.drawImage(gameImages["spirit"], state.camera.X, state.camera.Y);
 
         // Draw starfield
         state.ctx.fillStyle = "gray";
         for (var i=state.starfieldBack.length-1; i>=0; --i) {
             var star = state.starfieldBack[i];
-            if (star[0] < state.cameraX) {
+            if (star[0] < state.camera.X) {
                 star[0] += 800;
-            } else if (star[0] > state.cameraX + 800) {
+            } else if (star[0] > state.camera.X + 800) {
                 star[0] -= 800;
             }
-            if (star[1] < state.cameraY) {
+            if (star[1] < state.camera.Y) {
                 star[1] += 600;
-            } else if (star[1] > state.cameraY + 600) {
+            } else if (star[1] > state.camera.Y + 600) {
                 star[1] -= 600;
             }
             state.ctx.fillRect(star[0], star[1], 1, 1);
