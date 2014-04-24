@@ -48,7 +48,9 @@ function MainMenu() {
     var dom_game = document.getElementById('game');
 
     // Draw Menu
-    $('#game').after('<div id="main-menu"></div>');
+    var dom_menu = document.createElement('div');
+    dom_menu.id = 'main-menu';
+    dom_game.parentNode.insertBefore(dom_menu, dom_game.nextSibling);
     main_menu_menu();
 
     // draw starfield
@@ -61,12 +63,13 @@ function MainMenu() {
         Debug.log('Drawing main menu click menu.');
 
         // Draw Menu
-        $('#main-menu').html('<ul><li><a href="#" id="start-game">START NEW GAME</a></li><li><a href="#" id="load-game">LOAD GAME</a></li><li><a href="#" id="continue-game">CONTINUE CURRENT GAME</a></li><li><a href="#" id="options">OPTIONS</a></li></ul><audio autoplay loop><source src="data/music/Platinum.ogg" type="audio/ogg" /><source src="data/music/Platinum.mp3" type="audio/mpeg" /></audio>');
+        document.getElementById('main-menu').innerHTML = '<ul><li><a href="#" id="start-game">START NEW GAME</a></li><li><a href="#" id="load-game">LOAD GAME</a></li><li><a href="#" id="continue-game">CONTINUE CURRENT GAME</a></li><li><a href="#" id="options">OPTIONS</a></li></ul><audio autoplay loop><source src="data/music/Platinum.ogg" type="audio/ogg" /><source src="data/music/Platinum.mp3" type="audio/mpeg" /></audio>';
 
         document.getElementById('start-game').onclick = function() {
             Debug.log('Game start event.');
             clearInterval(me.main_loop_interval);
-            $("#main-menu").remove();
+
+            dom_menu.parentNode.removeChild(dom_menu);
 
             var t = new Tracker();
             t.loadStory('story').then(function(){
