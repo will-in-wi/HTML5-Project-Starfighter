@@ -41,16 +41,17 @@ function Firefly(startPoint) {
         // Draw shield
         Widgets.shield(this.shield, this.maxShield);
 
-        var newPoint = this.physics.whereTo();
+        this.currPoint = this.physics.whereTo();
 
-        // determine left vs. right from change in X.
-        if (newPoint.X > this.currPoint.X) {
-            this.direction = 'right';
-        } else if (newPoint.X < this.currPoint.X) {
+        // Pressed left
+        if (kbd.leftArrow && !kbd.rightArrow) {
             this.direction = 'left';
         }
 
-        this.currPoint = newPoint;
+        // Pressed right
+        if (kbd.rightArrow && !kbd.leftArrow) {
+            this.direction = 'right';
+        }
 
         // Draw firefly
         Widgets.ship('firefly', this.direction, this.currPoint);
