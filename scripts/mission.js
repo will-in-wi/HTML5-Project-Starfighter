@@ -31,7 +31,7 @@ function Mission(element) {
     }
 
     this.start = function () {
-        this.display_briefing().done(function(){
+        this.display_briefing().then(function(){
             me.start_game();
         });
         // TODO: Handle starting the game once the mission is done.

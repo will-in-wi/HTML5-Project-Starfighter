@@ -16,7 +16,7 @@ function Scroller(element) {
 
     this.main_loop_interval = null;
 
-    this.completion_promise = new jQuery.Deferred();
+    var completion_resolve = null;
 
     this.draw = function () {
         // clear canvas
@@ -61,7 +61,7 @@ function Scroller(element) {
         function exit_scroller() {
             clearInterval(me.main_loop_interval);
 
-            me.completion_promise.resolve();
+            completion_resolve();
 
             // Decide what function gets execution.
             // if (inSystem == false) {
@@ -73,11 +73,13 @@ function Scroller(element) {
     }
 
     this.main_loop = function () {
-        me.draw();
-        me.main_loop_interval = setInterval(function() {
-            me.draw();
-        }, 40);
+        return new Promise(function(resolve, reject){
+            completion_resolve = resolve;
 
-        return this.completion_promise;
+            me.draw();
+            me.main_loop_interval = setInterval(function() {
+                me.draw();
+            }, 40);
+        });
     }
 }

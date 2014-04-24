@@ -46,13 +46,13 @@ function Tracker() {
         switch (next.type) {
             case 'scroller':
                 scene = new Scroller(next);
-                scene.main_loop().done(function(){
+                scene.main_loop().then(function(){
                     me.next_scene();
                 });
                 break;
             case 'cutscene':
                 scene = new CutScene(next);
-                scene.main_loop().done(function(){
+                scene.main_loop().then(function(){
                     me.next_scene();
                 });
                 break;

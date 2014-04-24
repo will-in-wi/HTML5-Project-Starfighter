@@ -11,11 +11,11 @@ function Briefing(element) {
 
     this.main_loop_interval = null;
 
-    this.completion_promise = new jQuery.Deferred();
+    var completion_resolve = null;
 
     this.end_briefing = function() {
         clearInterval(me.main_loop_interval);
-        this.completion_promise.resolve();
+        completion_resolve();
     }
 
     this.draw = function () {
@@ -58,14 +58,16 @@ function Briefing(element) {
     }
 
     this.main_loop = function () {
-        me.draw();
+        return new Promise(function(resolve, reject){
+            completion_resolve = resolve;
 
-        me.main_loop_interval = setInterval(function() {
-            // Looping for the keyboard.
-            // TODO: Fix this to be event driven.
             me.draw();
-        }, 40);
 
-        return this.completion_promise;
+            me.main_loop_interval = setInterval(function() {
+                // Looping for the keyboard.
+                // TODO: Fix this to be event driven.
+                me.draw();
+            }, 40);
+        });
     }
 }

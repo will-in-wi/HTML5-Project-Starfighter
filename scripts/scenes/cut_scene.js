@@ -10,7 +10,7 @@ function CutScene(element) {
 
     var currTime = 0;
 
-    this.completion_promise = new jQuery.Deferred();
+    var completion_resolve = null;
 
     // draw starfield
     var starfield = [];
@@ -103,7 +103,7 @@ function CutScene(element) {
         function endCutScene() {
             clearInterval(me.main_loop_interval);
 
-            me.completion_promise.resolve();
+            completion_resolve();
         }
 
         if (kbd.ctrl == true) { // Skip scene
@@ -128,10 +128,11 @@ function CutScene(element) {
     }
 
     this.main_loop = function () {
-        me.main_loop_interval = setInterval(function() {
-            me.draw();
-        }, 40);
-
-        return this.completion_promise;
+        return new Promise(function(resolve, reject){
+            completion_resolve = resolve
+            me.main_loop_interval = setInterval(function() {
+                me.draw(resolve);
+            }, 40);
+        });
     }
 }
