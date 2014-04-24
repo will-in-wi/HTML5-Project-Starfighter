@@ -14,21 +14,27 @@ function PreloadImages(img_dir, preload_source) {
     this.preload = function() {
         Debug.log('Beginning image preload.');
 
-        $.getJSON(this.img_dir + this.preload_source, function(data) {
+        var httpRequest = new XMLHttpRequest();
+        httpRequest.onreadystatechange = function() {
+            if (httpRequest.readyState === 4 && httpRequest.status === 200) {
+                Debug.log('Image Preload JSON returned, beginning to preload images.');
 
-            Debug.log('Image Preload JSON returned, beginning to preload images.');
+                var data = JSON.parse(httpRequest.responseText);
 
-            var promises = [];
+                var promises = [];
 
-            for (var i = 0; i < data.length; i++) {
-                promises.push(me.load_object(data[i]));
+                for (var i = 0; i < data.length; i++) {
+                    promises.push(me.load_object(data[i]));
+                }
+
+                $.when.apply($, promises).done(function(){
+                    Debug.log('Image preload finished.');
+                    masterDeferred.resolve(images);
+                });
             }
-
-            $.when.apply($, promises).done(function(){
-                Debug.log('Image preload finished.');
-                masterDeferred.resolve(images);
-            });
-        });
+        }
+        httpRequest.open('GET', this.img_dir + this.preload_source, true);
+        httpRequest.send(null);
 
         return masterDeferred;
     }

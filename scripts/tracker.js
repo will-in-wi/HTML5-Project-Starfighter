@@ -16,18 +16,21 @@ function Tracker() {
 
         var deferred = new jQuery.Deferred();
 
-        // TODO: Get rid of jQuery. We can assume a sane environment.
-        $.getJSON(storyName + '.json', function(data) {
+        var httpRequest = new XMLHttpRequest();
+        httpRequest.onreadystatechange = function() {
+            if (httpRequest.readyState === 4 && httpRequest.status === 200) {
+                Debug.log('Story JSON returned, setting up game.');
 
-            Debug.log('Story JSON returned, setting up game.');
+                me.game_play = JSON.parse(httpRequest.responseText);
 
-            me.game_play = data;
+                // Used to determine whether the game is currently in a system.
+                // window.inSystem = false;
 
-            // Used to determine whether the game is currently in a system.
-            // window.inSystem = false;
-
-            deferred.resolve();
-        });
+                deferred.resolve();
+            }
+        }
+        httpRequest.open('GET', storyName + '.json', true);
+        httpRequest.send(null);
 
         return deferred;
     }
