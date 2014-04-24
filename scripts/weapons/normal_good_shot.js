@@ -39,7 +39,7 @@ function NormalGoodShot() {
                 this.damage = 1;
             }
 
-            var shotLoc = $.extend(true, {}, currPoint);
+            var shotLoc = currPoint.clone();
             shotLoc.Y += 3;
             for (var i = 0; i <= this.shots - 1; i = i + 1) {
                 var newPoint = new Point(shotLoc.X, shotLoc.Y + (i*3));

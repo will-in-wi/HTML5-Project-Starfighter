@@ -47,9 +47,11 @@ function CutScene(element) {
     var count = 0;
     var currText = 0;
 
+    var dom_game = document.getElementById('game');
+
     this.draw = function () {
         // clear canvas
-        state.ctx.clearRect(0, 0, $('#game').width(), $('#game').height());
+        state.ctx.clearRect(0, 0, dom_game.offsetWidth, dom_game.offsetHeight);
 
         state.camera.X += sceneSpeed;
         state.ctx.translate(-sceneSpeed, 0);

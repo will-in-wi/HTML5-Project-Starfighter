@@ -5,7 +5,7 @@ function Rocket(startPoint, side, direction) {
 
     var state = window.game_state;
 
-    this.currPoint = $.extend(true, {}, startPoint);
+    this.currPoint = startPoint.clone();
     this.distance = 1000;
     this.startPoint = startPoint;
     this.speed = 35;

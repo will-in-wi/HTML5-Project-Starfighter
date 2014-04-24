@@ -20,6 +20,8 @@ function Game() {
     var powerup = new PowerUp('rate', new Point(400,400), 10);
     state.drawObjects.push(powerup);
 
+    var dom_game = document.getElementById('game');
+
     function collision(obj1, obj2) {
         if (!(obj1.currPoint.X + obj1.width < obj2.currPoint.X ||
                 obj2.currPoint.X + obj2.width < obj1.currPoint.X ||
@@ -35,7 +37,7 @@ function Game() {
 
     this.draw = function () {
         // clear canvas
-        state.ctx.clearRect(state.camera.X, state.camera.Y, $('#game').width(), $('#game').height());
+        state.ctx.clearRect(state.camera.X, state.camera.Y, dom_game.offsetWidth, dom_game.offsetHeight);
 
         // create background
         state.ctx.drawImage(gameImages["spirit"], state.camera.X, state.camera.Y);

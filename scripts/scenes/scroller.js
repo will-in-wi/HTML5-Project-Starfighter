@@ -12,13 +12,15 @@ function Scroller(element) {
     var currY = 620;
     var wait = 100;
 
+    var dom_game = document.getElementById('game');
+
     this.main_loop_interval = null;
 
     this.completion_promise = new jQuery.Deferred();
 
     this.draw = function () {
         // clear canvas
-        state.ctx.clearRect(state.camera.X, state.camera.Y, $('#game').width(), $('#game').height());
+        state.ctx.clearRect(state.camera.X, state.camera.Y, dom_game.offsetWidth, dom_game.offsetHeight);
 
         // create background
         state.ctx.drawImage(gameImages[element.background], state.camera.X, state.camera.Y);

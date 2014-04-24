@@ -20,7 +20,7 @@ function Missle() {
             // Check number of shots
             if (this.missles > 0) {
                 this.missles -= 1;
-                var shotLoc = $.extend(true, {}, currPoint);
+                var shotLoc = currPoint.clone();
                 shotLoc.Y += 3;
                 var missle = new Rocket(shotLoc, "good", direction);
                 playSound('data/sound/missile');

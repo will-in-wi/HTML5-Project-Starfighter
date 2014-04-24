@@ -5,7 +5,7 @@ function PowerUp(category, startLoc, val) {
     var state = window.game_state;
 
     // Make sure we copy the startLoc variable.
-    this.currPoint = $.extend(true, {}, startLoc);
+    this.currPoint = startLoc.clone();
 
     // Can be 'shield', 'shots', 'damage', 'rate', 'superCharge', 'pod', 'ore', 'cash', 'rockets', 'cargo', or 'plasma'.
     this.category = category;

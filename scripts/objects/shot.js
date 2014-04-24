@@ -5,7 +5,7 @@ function Shot(startPoint, gfx, side, direction, damage) {
 
     var state = window.game_state;
 
-    this.currPoint = $.extend(true, {}, startPoint);
+    this.currPoint = startPoint.clone();
     this.distance = 1000;
     this.gfx = gfx;
     this.startPoint = startPoint;
