@@ -14,25 +14,26 @@ function Tracker() {
     this.loadStory = function(storyName) {
         Debug.log('Downloading story json: ' + storyName + '.json');
 
-        var deferred = new jQuery.Deferred();
-
         var httpRequest = new XMLHttpRequest();
-        httpRequest.onreadystatechange = function() {
-            if (httpRequest.readyState === 4 && httpRequest.status === 200) {
-                Debug.log('Story JSON returned, setting up game.');
 
-                me.game_play = JSON.parse(httpRequest.responseText);
+        var promise = new Promise(function(resolve, reject){
+            httpRequest.onreadystatechange = function() {
+                if (httpRequest.readyState === 4 && httpRequest.status === 200) {
+                    Debug.log('Story JSON returned, setting up game.');
 
-                // Used to determine whether the game is currently in a system.
-                // window.inSystem = false;
+                    me.game_play = JSON.parse(httpRequest.responseText);
 
-                deferred.resolve();
+                    // Used to determine whether the game is currently in a system.
+                    // window.inSystem = false;
+
+                    resolve();
+                }
             }
-        }
+        });
         httpRequest.open('GET', storyName + '.json', true);
         httpRequest.send(null);
 
-        return deferred;
+        return promise;
     }
 
     // Advance to next top-level part of the game.

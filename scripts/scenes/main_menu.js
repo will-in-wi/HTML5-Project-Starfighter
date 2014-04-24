@@ -69,7 +69,7 @@ function MainMenu() {
             $("#main-menu").remove();
 
             var t = new Tracker();
-            t.loadStory('story').done(function(){
+            t.loadStory('story').then(function(){
                 t.next_scene();
             });
         });
