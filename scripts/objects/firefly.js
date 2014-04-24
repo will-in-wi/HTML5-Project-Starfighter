@@ -42,7 +42,7 @@ function Firefly(startPoint) {
         }
 
         // Draw shield
-        Widgets.shield(this.shield, this.maxShield);
+        Widgets.global_shield(this.shield, this.maxShield);
 
         this.currPoint = this.physics.whereTo();
 

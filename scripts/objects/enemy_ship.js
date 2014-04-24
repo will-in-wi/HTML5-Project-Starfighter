@@ -90,7 +90,7 @@ function EnemyShip(ai, ship, shield, primaryWeapon) {
 
             // Draw shield above ship
             if (!this.noShield) {
-                Widgets.enemy_shield(this.shield, this.maxShield, gameImages[this.ship + "1"].width, this.currPoint);
+                Widgets.ship_shield(this.shield, this.maxShield, gameImages[this.ship + "1"].width, this.currPoint);
             }
 
             // draw smoke
