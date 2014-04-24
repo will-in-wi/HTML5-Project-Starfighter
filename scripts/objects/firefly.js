@@ -39,6 +39,7 @@ function Firefly(startPoint) {
         if (this.shield <= 0) {
             // I have been shot.
             this.die();
+            return;
         }
 
         // Draw shield
