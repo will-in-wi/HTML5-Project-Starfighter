@@ -36,97 +36,102 @@ function EnemyShip(ai, ship, shield, primaryWeapon) {
     this.reapMe = false;
     this.type = "bad_ship";
 
+    this.die = function() {
+        this.reapMe = true;
+        var explode = new Explosion(this.currPoint);
+        state.drawObjects.push(explode);
+    }
+
     this.draw = function () {
         if (this.shield <= 0) {
-            this.reapMe = true;
-            var explode = new Explosion(this.currPoint);
-            state.drawObjects.push(explode);
-        } else {
-            // Get new location from AI.
-            var newPoint = this.AI.whereTo();
+            this.die();
+            return;
+        }
 
-            // determine left vs. right from change in X.
-            if (newPoint.X > this.currPoint.X) {
-                this.direction = 'right';
-            } else if (newPoint.X < this.currPoint.X) {
-                this.direction = 'left';
+        // Get new location from AI.
+        var newPoint = this.AI.whereTo();
+
+        // determine left vs. right from change in X.
+        if (newPoint.X > this.currPoint.X) {
+            this.direction = 'right';
+        } else if (newPoint.X < this.currPoint.X) {
+            this.direction = 'left';
+        }
+
+        this.currPoint = newPoint;
+
+        // Add arrow if object is off screen.
+        if (this.currPoint.X < state.camera.X || this.currPoint.X > state.camera.X + 800 || this.currPoint.Y < state.camera.Y || this.currPoint.Y > state.camera.Y + 600) {
+            // Show arrow on edge of screen
+            if (this.currPoint.X < state.camera.X && this.currPoint.Y < state.camera.Y) { // upper left corner
+                state.ctx.drawImage(gameImages["arrowNorthWest"], state.camera.X + 2, state.camera.Y + 2);
+            } else if (this.currPoint.X < state.camera.X && this.currPoint.Y > state.camera.Y + 600) { // lower left corner
+                state.ctx.drawImage(gameImages["arrowSouthWest"], state.camera.X + 2, state.camera.Y + 585);
+            } else if (this.currPoint.X > state.camera.X + 800 && this.currPoint.Y < state.camera.Y) { // upper right corner
+                state.ctx.drawImage(gameImages["arrowNorthEast"], state.camera.X + 785, state.camera.Y + 2);
+            } else if (this.currPoint.X > state.camera.X + 800 && this.currPoint.Y > state.camera.Y + 600) { // lower right corner
+                state.ctx.drawImage(gameImages["arrowSouthEast"], state.camera.X + 785, state.camera.Y + 585);
+            } else if (this.currPoint.X < state.camera.X) { // Left side
+                state.ctx.drawImage(gameImages["arrowWest"], state.camera.X + 2, this.currPoint.Y);
+            } else if (this.currPoint.X > state.camera.X + 800) { // Right Side
+                state.ctx.drawImage(gameImages["arrowEast"], state.camera.X + 785, this.currPoint.Y);
+            } else if (this.currPoint.Y < state.camera.Y) { // Top side
+                state.ctx.drawImage(gameImages["arrowNorth"], this.currPoint.X, state.camera.Y + 2);
+            } else if (this.currPoint.Y > state.camera.Y + 600) { // Bottom side
+                state.ctx.drawImage(gameImages["arrowSouth"], this.currPoint.X, state.camera.Y + 585);
+            }
+        } else {
+            // Draw ship
+            if (this.direction == 'right') {
+                state.ctx.drawImage(gameImages[this.ship + "1"], this.currPoint.X, this.currPoint.Y);
+            } else if (this.direction == 'left')  {
+                state.ctx.drawImage(gameImages[this.ship + "2"], this.currPoint.X, this.currPoint.Y);
             }
 
-            this.currPoint = newPoint;
+            // Draw shield above ship
+            if (!this.noShield) {
+                var percentageShield = this.shield / this.maxShield * 100;
+                if (percentageShield > 66) {
+                    state.ctx.fillStyle = 'green';
+                } else if (percentageShield > 33) {
+                    state.ctx.fillStyle = 'orange';
+                } else {
+                    state.ctx.fillStyle = 'red';
+                }
+                var fillWidth = (gameImages[this.ship + "1"].width) * (percentageShield / 100);
+                state.ctx.fillRect(this.currPoint.X + 1, this.currPoint.Y - 10, fillWidth, 5);
+            }
 
-            // Add arrow if object is off screen.
-            if (this.currPoint.X < state.camera.X || this.currPoint.X > state.camera.X + 800 || this.currPoint.Y < state.camera.Y || this.currPoint.Y > state.camera.Y + 600) {
-                // Show arrow on edge of screen
-                if (this.currPoint.X < state.camera.X && this.currPoint.Y < state.camera.Y) { // upper left corner
-                    state.ctx.drawImage(gameImages["arrowNorthWest"], state.camera.X + 2, state.camera.Y + 2);
-                } else if (this.currPoint.X < state.camera.X && this.currPoint.Y > state.camera.Y + 600) { // lower left corner
-                    state.ctx.drawImage(gameImages["arrowSouthWest"], state.camera.X + 2, state.camera.Y + 585);
-                } else if (this.currPoint.X > state.camera.X + 800 && this.currPoint.Y < state.camera.Y) { // upper right corner
-                    state.ctx.drawImage(gameImages["arrowNorthEast"], state.camera.X + 785, state.camera.Y + 2);
-                } else if (this.currPoint.X > state.camera.X + 800 && this.currPoint.Y > state.camera.Y + 600) { // lower right corner
-                    state.ctx.drawImage(gameImages["arrowSouthEast"], state.camera.X + 785, state.camera.Y + 585);
-                } else if (this.currPoint.X < state.camera.X) { // Left side
-                    state.ctx.drawImage(gameImages["arrowWest"], state.camera.X + 2, this.currPoint.Y);
-                } else if (this.currPoint.X > state.camera.X + 800) { // Right Side
-                    state.ctx.drawImage(gameImages["arrowEast"], state.camera.X + 785, this.currPoint.Y);
-                } else if (this.currPoint.Y < state.camera.Y) { // Top side
-                    state.ctx.drawImage(gameImages["arrowNorth"], this.currPoint.X, state.camera.Y + 2);
-                } else if (this.currPoint.Y > state.camera.Y + 600) { // Bottom side
-                    state.ctx.drawImage(gameImages["arrowSouth"], this.currPoint.X, state.camera.Y + 585);
+            // draw smoke
+            var smokePoint = new Point(0, Math.random()*gameImages[this.ship + "1"].height + this.currPoint.Y);
+            if (this.direction == 'right') {
+                smokePoint.X = this.currPoint.X - 2;
+            } else if (this.direction == 'left') {
+                smokePoint.X = this.currPoint.X + 25;
+            }
+            var smoke = new Smoke(smokePoint);
+            state.drawObjects.push(smoke);
+        }
+
+        // Fire if Firefly is in front.
+        if (state.firefly) { // Firefly does not exist in menu
+            if (this.currPoint.Y + 10 > state.firefly.currPoint.Y && this.currPoint.Y - 10 < state.firefly.currPoint.Y) { // Firefly is in line of fire.
+                // Shoot
+                if (this.direction == 'right') { // Shoot right
+                    if (this.currPoint.X < state.firefly.currPoint.X) {
+                        this.primaryWeapon.fire(this.direction, this.currPoint);
+                    } else {
+                        this.primaryWeapon.nofire();
+                    }
+                } else { // Shoot left
+                    if (this.currPoint.X > state.firefly.currPoint.X) {
+                        this.primaryWeapon.fire(this.direction, this.currPoint);
+                    } else {
+                        this.primaryWeapon.nofire();
+                    }
                 }
             } else {
-                // Draw ship
-                if (this.direction == 'right') {
-                    state.ctx.drawImage(gameImages[this.ship + "1"], this.currPoint.X, this.currPoint.Y);
-                } else if (this.direction == 'left')  {
-                    state.ctx.drawImage(gameImages[this.ship + "2"], this.currPoint.X, this.currPoint.Y);
-                }
-
-                // Draw shield above ship
-                if (!this.noShield) {
-                    var percentageShield = this.shield / this.maxShield * 100;
-                    if (percentageShield > 66) {
-                        state.ctx.fillStyle = 'green';
-                    } else if (percentageShield > 33) {
-                        state.ctx.fillStyle = 'orange';
-                    } else {
-                        state.ctx.fillStyle = 'red';
-                    }
-                    var fillWidth = (gameImages[this.ship + "1"].width) * (percentageShield / 100);
-                    state.ctx.fillRect(this.currPoint.X + 1, this.currPoint.Y - 10, fillWidth, 5);
-                }
-
-                // draw smoke
-                var smokePoint = new Point(0, Math.random()*gameImages[this.ship + "1"].height + this.currPoint.Y);
-                if (this.direction == 'right') {
-                    smokePoint.X = this.currPoint.X - 2;
-                } else if (this.direction == 'left') {
-                    smokePoint.X = this.currPoint.X + 25;
-                }
-                var smoke = new Smoke(smokePoint);
-                state.drawObjects.push(smoke);
-            }
-
-            // Fire if Firefly is in front.
-            if (state.firefly) { // Firefly does not exist in menu
-                if (this.currPoint.Y + 10 > state.firefly.currPoint.Y && this.currPoint.Y - 10 < state.firefly.currPoint.Y) { // Firefly is in line of fire.
-                    // Shoot
-                    if (this.direction == 'right') { // Shoot right
-                        if (this.currPoint.X < state.firefly.currPoint.X) {
-                            this.primaryWeapon.fire(this.direction, this.currPoint);
-                        } else {
-                            this.primaryWeapon.nofire();
-                        }
-                    } else { // Shoot left
-                        if (this.currPoint.X > state.firefly.currPoint.X) {
-                            this.primaryWeapon.fire(this.direction, this.currPoint);
-                        } else {
-                            this.primaryWeapon.nofire();
-                        }
-                    }
-                } else {
-                    this.primaryWeapon.nofire();
-                }
+                this.primaryWeapon.nofire();
             }
         }
     }
