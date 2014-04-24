@@ -2,6 +2,8 @@
 
 $(document).ready(function() {
 
+    Debug.log('Document Ready.');
+
     window.game_state = new StarfighterState();
 
     // Preloading images
