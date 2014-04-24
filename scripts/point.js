@@ -6,6 +6,10 @@ function Point(x, y) {
     this.Y = y;
 
     this.move = function(x, y) {
-        return new Point(this.X + x, this.Y + y)
+        return new Point(this.X + x, this.Y + y);
+    }
+
+    this.clone = function() {
+        return new Point(this.X, this.Y);
     }
 }
