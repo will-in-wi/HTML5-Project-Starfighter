@@ -1,4 +1,9 @@
-'use strict';
+import FlyStraightAI from 'ai/fly_straight_ai.js';
+import Point from 'point.js';
+import NoWeapon from 'weapons/no_weapon.js';
+import EnemyShip from 'objects/enemy_ship.js';
+import talkBox from 'misc.js';
+import kbd from 'keyboard.js'
 
 function CutScene(element) {
 
@@ -136,3 +141,5 @@ function CutScene(element) {
         });
     }
 }
+
+export default CutScene;

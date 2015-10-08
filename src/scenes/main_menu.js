@@ -1,4 +1,8 @@
-'use strict';
+import Debug from 'debug.js';
+import Point from 'point.js';
+import MenuAI from 'ai/menu_ai.js';
+import EnemyShip from 'objects/enemy_ship.js';
+import Tracker from 'tracker.js';
 
 function MainMenu() {
 
@@ -120,3 +124,5 @@ function MainMenu() {
         }, 40);
     }
 }
+
+export default MainMenu;

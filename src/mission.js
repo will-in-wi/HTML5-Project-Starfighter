@@ -1,4 +1,4 @@
-'use strict';
+import Briefing from 'scenes/briefing.js';
 
 function Mission(element) {
 
@@ -37,3 +37,5 @@ function Mission(element) {
         // TODO: Handle starting the game once the mission is done.
     }
 }
+
+export default Mission;

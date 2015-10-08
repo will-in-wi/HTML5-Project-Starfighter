@@ -1,4 +1,4 @@
-'use strict';
+import Point from 'point.js';
 
 // This function plays a sound file. It assumes that there is a file of type
 // OGG and mp3 in the same location.
@@ -90,3 +90,5 @@ function split_text(text, len) {
 
     return talk;
 }
+
+export default talkBox;

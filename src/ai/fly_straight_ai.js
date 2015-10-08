@@ -1,13 +1,14 @@
-'use strict';
-
 // To be used for CutScenes
-function FlyStraightAI(speed, startPoint) {
+class FlyStraightAI {
+  constructor(speed, startPoint) {
     this.currPoint = startPoint.clone();
     this.speed = speed;
+  }
 
-    this.whereTo = function() {
-        this.currPoint.X += this.speed;
-
-        return this.currPoint;
-    }
+  whereTo() {
+    this.currPoint.X += this.speed;
+    return this.currPoint;
+  }
 }
+
+export default FlyStraightAI;

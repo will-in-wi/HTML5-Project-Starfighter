@@ -1,15 +1,17 @@
-'use strict';
-
 // Point object
-function Point(x, y) {
+class Point {
+  constructor(x, y) {
     this.X = x;
     this.Y = y;
+  }
 
-    this.move = function(x, y) {
-        return new Point(this.X + x, this.Y + y);
-    }
+  move(x, y) {
+    return new Point(this.X + x, this.Y + y);
+  }
 
-    this.clone = function() {
-        return new Point(this.X, this.Y);
-    }
+  clone() {
+    return new Point(this.X, this.Y);
+  }
 }
+
+export default Point;

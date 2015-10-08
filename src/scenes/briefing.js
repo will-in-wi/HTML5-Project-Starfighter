@@ -1,4 +1,6 @@
-'use strict';
+import Point from 'point.js';
+import Widgets from 'widgets.js';
+import Color from 'color.js';
 
 function Briefing(element) {
 
@@ -71,3 +73,5 @@ function Briefing(element) {
         });
     }
 }
+
+export default Briefing;

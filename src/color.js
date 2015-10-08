@@ -1,7 +1,5 @@
-'use strict';
-
-function Color (red, green, blue) {
-
+class Color {
+  constructor(red, green, blue) {
     if (red > 255 || red < 0) {
         throw 'Red color out of range: ' + red;
     }
@@ -17,17 +15,20 @@ function Color (red, green, blue) {
     this.red = red;
     this.green = green;
     this.blue = blue;
+  }
 
-    this.hex = function () {
-        // Outputs hexadecimal RGB color.
-        return '#' + ("00" + this.red.toString(16)).substr(-2, 2) + ("00" + this.green.toString(16)).substr(-2, 2) + ("00" + this.blue.toString(16)).substr(-2, 2)
+  hex() {
+    // Outputs hexadecimal RGB color.
+    return '#' + ("00" + this.red.toString(16)).substr(-2, 2) + ("00" + this.green.toString(16)).substr(-2, 2) + ("00" + this.blue.toString(16)).substr(-2, 2)
+  }
+
+  transform(amount) {
+    if (amount < -1 || amount > 1) {
+      throw 'Amount out of range.';
     }
 
-    this.transform = function (amount) {
-        if (amount < -1 || amount > 1) {
-            throw 'Amount out of range.';
-        }
-
-        return new Color(Math.ceil(this.red * amount), Math.ceil(this.green * amount), Math.ceil(this.blue * amount));
-    }
+    return new Color(Math.ceil(this.red * amount), Math.ceil(this.green * amount), Math.ceil(this.blue * amount));
+  }
 }
+
+export default Color;

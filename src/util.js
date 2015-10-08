@@ -1,5 +1,3 @@
-'use strict';
-
 var util = {
     getParameterByName : function (name) {
         name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -14,3 +12,5 @@ var util = {
         return decodeURIComponent(results[1].replace(/\+/g, " "));
     }
 }
+
+export default util;

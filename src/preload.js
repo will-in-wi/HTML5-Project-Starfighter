@@ -1,4 +1,4 @@
-'use strict';
+import Debug from 'debug.js';
 
 function PreloadImages(img_dir, preload_source) {
 
@@ -56,3 +56,5 @@ function PreloadImages(img_dir, preload_source) {
         return promise;
     }
 }
+
+export default PreloadImages;

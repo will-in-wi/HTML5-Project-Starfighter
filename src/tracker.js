@@ -1,4 +1,7 @@
-'use strict';
+import Debug from 'debug.js';
+import Scroller from 'scenes/scroller.js';
+import CutScene from 'scenes/cut_scene.js';
+import Mission from 'mission.js';
 
 // Maintains game state at all times.
 // Main menu hands off control to this class which takes things from there.
@@ -66,3 +69,5 @@ function Tracker() {
         }
     }
 }
+
+export default Tracker;

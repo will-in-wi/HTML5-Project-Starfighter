@@ -1,5 +1,3 @@
-'use strict';
-
 var Widgets = {
     header_box : function(loc, color, headerText, bodyText) {
         var state = window.game_state;
@@ -137,3 +135,5 @@ var Widgets = {
         }
     }
 };
+
+export default Widgets;

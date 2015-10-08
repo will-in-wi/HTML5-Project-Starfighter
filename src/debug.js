@@ -1,4 +1,4 @@
-'use strict';
+import util from 'util.js';
 
 /**
  * @name Debug
@@ -59,3 +59,5 @@ var Debug = {
         'error': {'id' : 3, 'name' : 'error'}
     }
 };
+
+export default Debug;

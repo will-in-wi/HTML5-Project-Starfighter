@@ -1,4 +1,4 @@
-'use strict';
+import Point from 'point.js';
 
 var StarfighterState = function() {
     // Data that retains state throughout playback.
@@ -23,3 +23,5 @@ var StarfighterState = function() {
 
     state.reset();
 }
+
+export default StarfighterState;
